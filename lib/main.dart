@@ -24,7 +24,6 @@ class _MyAppState extends State<MyApp> {
     await flutterTts.speak(_newVoiceText);
   }
 
-
   void _onChange(String text) {
     setState(() {
       _newVoiceText = text;
@@ -54,17 +53,58 @@ class _MyAppState extends State<MyApp> {
           body: new TabBarView(
             children: [
               //Composer
-              new TextField(
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Tu texto aquí'
+              Container(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        maxLines: null,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Tu texto aquí'
+                        ),
+                        onChanged: (String value) {
+                          _onChange(value);
+                        },
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.keyboard),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.cancel),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.undo),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.share),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.save),
+                              onPressed: () {},
+                            ),
+                            Expanded(
+                              child:
+                                FloatingActionButton(
+                                  child: Icon(Icons.volume_up),
+                                  backgroundColor: Colors.pink,
+                                  onPressed: _speak,
+                                ),
+                            )
+                          ]
+                      )
+                    ),
+                  ]
                 ),
-                onChanged: (String value) {
-                  _onChange(value);
-                },
               ),
-
               new GridView.count(
                 crossAxisCount: 2,
                 childAspectRatio: 2.5,
@@ -91,43 +131,8 @@ class _MyAppState extends State<MyApp> {
                 // 4 Text Fields here
                 ]
               ),
-
-              new Text("TODO SPEAK"),
               new Text("TODO SETTINGS"),
             ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.volume_up),
-            backgroundColor: Colors.pink,
-            onPressed: _speak,
-          ),
-          bottomNavigationBar: BottomAppBar(
-            child: new Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.keyboard),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.cancel),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.undo),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.save),
-                  onPressed: () {},
-                )
-              ],
-            ),
           ),
         ),
       )
