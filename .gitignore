@@ -1,0 +1,7 @@
+.idea
+.packages
+.flutter-plugins
+build/
+android/*
+ios/*
+pubspec.lock
