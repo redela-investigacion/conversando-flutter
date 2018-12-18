@@ -92,7 +92,6 @@ class _MyAppState extends State<MyApp> {
                 ]
               ),
 
-              new Text("TODO SPEAK"),
               new Text("TODO SETTINGS"),
             ],
           ),
