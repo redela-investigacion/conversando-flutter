@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: new TabBarView(
             children: [
+              //Composer
               new TextField(
                 maxLines: null,
                 decoration: InputDecoration(
@@ -63,6 +64,34 @@ class _MyAppState extends State<MyApp> {
                   _onChange(value);
                 },
               ),
+
+              new GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 2.5,
+                shrinkWrap: true,
+                children: <Widget>[
+                  new RaisedButton(
+                      child: new Text("Sí"),
+                      onPressed: () {flutterTts.speak("Sí");}),
+                  new RaisedButton(
+                      child: new Text("No"),
+                      onPressed: () {flutterTts.speak("No");}),
+                  new RaisedButton(
+                      child: new Text("Hola"),
+                      onPressed: () {flutterTts.speak("Hola");}),
+                  new RaisedButton(
+                      child: new Text("¿Cómo estás?"),
+                      onPressed: () {flutterTts.speak("¿Cómo estás?");}),
+                  new RaisedButton(
+                      child: new Text("Bien"),
+                      onPressed: () {flutterTts.speak("Bien");}),
+                  new RaisedButton(
+                      child: new Text("Gracias"),
+                      onPressed: () {flutterTts.speak("Gracias");}),
+                // 4 Text Fields here
+                ]
+              ),
+
               new Text("TODO SPEAK"),
               new Text("TODO SETTINGS"),
             ],
