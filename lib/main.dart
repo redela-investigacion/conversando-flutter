@@ -1,11 +1,36 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _newVoiceText = "";
+  FlutterTts flutterTts;
+
+  @override
+  initState() {
+    super.initState();
+    flutterTts = new FlutterTts();
+  }
+
+  Future _speak() async {
+    await flutterTts.speak(_newVoiceText);
+  }
+
+
+  void _onChange(String text) {
+    setState(() {
+      _newVoiceText = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,10 +53,52 @@ class MyApp extends StatelessWidget {
           ),
           body: new TabBarView(
             children: [
-              new Text("TODO COMPONER"),
+              new TextField(
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Tu texto aquí'
+                ),
+                onChanged: (String value) {
+                  _onChange(value);
+                },
+              ),
               new Text("TODO SPEAK"),
               new Text("TODO SETTINGS"),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.volume_up),
+            backgroundColor: Colors.pink,
+            onPressed: _speak,
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: new Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.keyboard),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.undo),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () {},
+                )
+              ],
+            ),
           ),
         ),
       )
