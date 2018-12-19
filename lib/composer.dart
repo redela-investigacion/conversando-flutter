@@ -47,23 +47,23 @@ class ComposerState extends State<ComposerWidget> {
         Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             IconButton(
-              icon: Icon(Icons.keyboard),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.cancel),
+              icon: Icon(Icons.close),
+              color: Colors.red,
               onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.undo),
+              color: Colors.black54,
               onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.share),
+              color: Colors.black54,
               onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.save),
+              color: Colors.black26,
               onPressed: () {},
             ),
           ])
