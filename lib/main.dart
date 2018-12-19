@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future _speak() async {
+    print(textController.text);
     await flutterTts.speak(textController.text);
   }
 
@@ -126,14 +127,14 @@ class _MyAppState extends State<MyApp> {
                             title: Text('Categorías de frases'),
                             children: [
                               ExpansionTile(
-                                title: Text('Saludos'),
+                                title: Text('😍 Saludos'),
                                 children: [
                                   new CustomListTile(this, 'Hola'),
                                   new CustomListTile(this, '¿Qué pasa?'),
                                 ],
                               ),
                               ExpansionTile(
-                                title: Text('En casa'),
+                                title: Text('🌎 En casa'),
                                 children: [
                                   new CustomListTile(this, '¿Puedes subir el volumen de la televisión?'),
                                   new CustomListTile(this, 'Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?'),
@@ -141,12 +142,12 @@ class _MyAppState extends State<MyApp> {
                                 ],
                               ),
                               ExpansionTile(
-                                title: Text('Cosas que me gustan'),
+                                title: Text('😙 Cosas que me gustan'),
                                 children: [
                                 ],
                               ),
                               ExpansionTile(
-                                title: Text('Preguntas'),
+                                title: Text('🌐 Preguntas'),
                                 children: [
                                 ],
                               ),
