@@ -13,14 +13,14 @@ class PhraseSelectorWidget extends StatelessWidget {
       title: Text('Categorías de frases'),
       children: [
         ExpansionTile(
-          title: Text('Saludos'),
+          title: Text('😍 Saludos'),
           children: [
             new PhraseWidget(this._tts, 'Hola'),
             new PhraseWidget(this._tts, '¿Qué pasa?'),
           ],
         ),
         ExpansionTile(
-          title: Text('En casa'),
+          title: Text('🌎 En casa'),
           children: [
             new PhraseWidget(
                 this._tts, '¿Puedes subir el volumen de la televisión?'),
@@ -30,11 +30,11 @@ class PhraseSelectorWidget extends StatelessWidget {
           ],
         ),
         ExpansionTile(
-          title: Text('Cosas que me gustan'),
+          title: Text('😙 Cosas que me gustan'),
           children: [],
         ),
         ExpansionTile(
-          title: Text('Preguntas'),
+          title: Text('🌐 Preguntas'),
           children: [],
         ),
       ],
