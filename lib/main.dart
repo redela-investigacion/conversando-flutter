@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -51,123 +50,142 @@ class _MyAppState extends State<MyApp> {
               ],
             ),
           ),
-          body: new TabBarView(
-            children: [
-              //Composer
-              Container(
-                child: Column(
+            body: Builder(
+              builder: (context) =>
+                new TabBarView(
                   children: [
-                    Expanded(
-                      child: TextField(
-                        maxLines: null,
-                        controller: textController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Tu texto aquí'
-                        ),
-                        onChanged: (String value) {
-                          _onChange(value);
-                        },
+                    //Composer
+                    Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              maxLines: null,
+                              controller: textController,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Tu texto aquí'
+                              ),
+                              onChanged: (String value) {
+                                _onChange(value);
+                              },
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.keyboard),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.cancel),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.undo),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.share),
+                                    onPressed: () {},
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.save),
+                                    onPressed: () {},
+                                  ),
+                                  Expanded(
+                                    child:
+                                      FloatingActionButton(
+                                        child: Icon(Icons.volume_up),
+                                        backgroundColor: Colors.pink,
+                                        onPressed: () {
+                                          _speak();
+
+                                          final snackBar = SnackBar(
+                                            content: Text("Diciendo: ${textController.text}"),
+                                            action: SnackBarAction(
+                                              label: 'Reproducir de nuevo',
+                                              onPressed: () {
+                                                _speak();
+                                              },
+                                            ),
+                                          );
+
+                                          // Find the Scaffold in the Widget tree and use it to show a SnackBar!
+                                          Scaffold.of(context).showSnackBar(snackBar);
+
+                                        }
+                                      ),
+                                  )
+                                ]
+                            )
+                          ),
+                          ExpansionTile(
+                            //key: PageStorageKey<Entry>(root),
+                            title: Text('Categorías de frases'),
+                            children: [
+                              ExpansionTile(
+                                title: Text('Saludos'),
+                                children: [
+                                  new CustomListTile(this, 'Hola'),
+                                  new CustomListTile(this, '¿Qué pasa?'),
+                                ],
+                              ),
+                              ExpansionTile(
+                                title: Text('En casa'),
+                                children: [
+                                  new CustomListTile(this, '¿Puedes subir el volumen de la televisión?'),
+                                  new CustomListTile(this, 'Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?'),
+                                  new CustomListTile(this, 'Por favor, traeme un vaso de agua')
+                                ],
+                              ),
+                              ExpansionTile(
+                                title: Text('Cosas que me gustan'),
+                                children: [
+                                ],
+                              ),
+                              ExpansionTile(
+                                title: Text('Preguntas'),
+                                children: [
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ]
                       ),
                     ),
-                    Container(
-                      child: Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.keyboard),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.undo),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.share),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.save),
-                              onPressed: () {},
-                            ),
-                            Expanded(
-                              child:
-                                FloatingActionButton(
-                                  child: Icon(Icons.volume_up),
-                                  backgroundColor: Colors.pink,
-                                  onPressed: _speak,
-                                ),
-                            )
-                          ]
-                      )
+                    new GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2.5,
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        new RaisedButton(
+                            child: new Text("Sí"),
+                            onPressed: () {flutterTts.speak("Sí");}),
+                        new RaisedButton(
+                            child: new Text("No"),
+                            onPressed: () {flutterTts.speak("No");}),
+                        new RaisedButton(
+                            child: new Text("Hola"),
+                            onPressed: () {flutterTts.speak("Hola");}),
+                        new RaisedButton(
+                            child: new Text("¿Cómo estás?"),
+                            onPressed: () {flutterTts.speak("¿Cómo estás?");}),
+                        new RaisedButton(
+                            child: new Text("Bien"),
+                            onPressed: () {flutterTts.speak("Bien");}),
+                        new RaisedButton(
+                            child: new Text("Gracias"),
+                            onPressed: () {flutterTts.speak("Gracias");}),
+                      // 4 Text Fields here
+                      ]
                     ),
-                    ExpansionTile(
-                      //key: PageStorageKey<Entry>(root),
-                      title: Text('Categorías de frases'),
-                      children: [
-                        ExpansionTile(
-                          title: Text('Saludos'),
-                          children: [
-                            new CustomListTile(this, 'Hola'),
-                            new CustomListTile(this, '¿Qué pasa?'),
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: Text('En casa'),
-                          children: [
-                            new CustomListTile(this, '¿Puedes subir el volumen de la televisión?'),
-                            new CustomListTile(this, 'Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?'),
-                            new CustomListTile(this, 'Por favor, traeme un vaso de agua')
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: Text('Cosas que me gustan'),
-                          children: [
-                          ],
-                        ),
-                        ExpansionTile(
-                          title: Text('Preguntas'),
-                          children: [
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ]
-                ),
-              ),
-              new GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 2.5,
-                shrinkWrap: true,
-                children: <Widget>[
-                  new RaisedButton(
-                      child: new Text("Sí"),
-                      onPressed: () {flutterTts.speak("Sí");}),
-                  new RaisedButton(
-                      child: new Text("No"),
-                      onPressed: () {flutterTts.speak("No");}),
-                  new RaisedButton(
-                      child: new Text("Hola"),
-                      onPressed: () {flutterTts.speak("Hola");}),
-                  new RaisedButton(
-                      child: new Text("¿Cómo estás?"),
-                      onPressed: () {flutterTts.speak("¿Cómo estás?");}),
-                  new RaisedButton(
-                      child: new Text("Bien"),
-                      onPressed: () {flutterTts.speak("Bien");}),
-                  new RaisedButton(
-                      child: new Text("Gracias"),
-                      onPressed: () {flutterTts.speak("Gracias");}),
-                // 4 Text Fields here
-                ]
-              ),
-              new Text("TODO SETTINGS"),
-            ],
+                    new Text("TODO SETTINGS"),
+                  ],
           ),
+          )
         ),
       )
     );
