@@ -1,14 +1,12 @@
 import 'package:conversando/phraseSelector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:conversando/context.dart';
 
 class SpeakerWidget extends StatelessWidget {
-  FlutterTts _tts;
-
-  SpeakerWidget(this._tts);
-
   @override
   Widget build(BuildContext context) {
+    final TextContext tc = TextContext.of(context);
     return Column(children: [
       Expanded(
           child: GridView.count(
@@ -19,36 +17,36 @@ class SpeakerWidget extends StatelessWidget {
             new RaisedButton(
                 child: new Text("Sí"),
                 onPressed: () {
-                  _tts.speak("Sí");
+                  tc.speak("Sí", context);
                 }),
             new RaisedButton(
                 child: new Text("No"),
                 onPressed: () {
-                  _tts.speak("No");
+                  tc.speak("No", context);
                 }),
             new RaisedButton(
                 child: new Text("Hola"),
                 onPressed: () {
-                  _tts.speak("Hola");
+                  tc.speak("Hola", context);
                 }),
             new RaisedButton(
                 child: new Text("¿Cómo estás?"),
                 onPressed: () {
-                  _tts.speak("¿Cómo estás?");
+                  tc.speak("¿Cómo estás?", context);
                 }),
             new RaisedButton(
                 child: new Text("Bien"),
                 onPressed: () {
-                  _tts.speak("Bien");
+                  tc.speak("Bien", context);
                 }),
             new RaisedButton(
                 child: new Text("Gracias"),
                 onPressed: () {
-                  _tts.speak("Gracias");
+                  tc.speak("Gracias", context);
                 }),
             // 4 Text Fields here
           ])),
-      new PhraseSelectorWidget(this._tts),
+      new PhraseSelectorWidget(),
     ]);
   }
 }

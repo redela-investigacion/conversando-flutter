@@ -1,24 +1,14 @@
 import 'package:conversando/phraseSelector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:conversando/context.dart';
 
-class ComposerWidget extends StatefulWidget {
-  FlutterTts _tts;
-
-  ComposerWidget(this._tts);
-
-  @override
-  ComposerState createState() => new ComposerState(this._tts);
-}
-
-class ComposerState extends State<ComposerWidget> {
+class ComposerWidget extends StatelessWidget {
   var _textController = new TextEditingController();
-  FlutterTts _tts;
-
-  ComposerState(this._tts);
 
   @override
   Widget build(BuildContext context) {
+    final TextContext tc = TextContext.of(context);
+
     return Container(
       child: Column(children: [
         Expanded(
@@ -39,7 +29,8 @@ class ComposerState extends State<ComposerWidget> {
               child: Icon(Icons.volume_up),
               backgroundColor: Colors.pink,
               onPressed: () {
-                this._tts.speak(this._textController.text);
+                tc.speak(this._textController.text, context);
+                //this.notify(this._textController.text);
               },
             ),
           )
@@ -68,7 +59,7 @@ class ComposerState extends State<ComposerWidget> {
             ),
           ])
         ]),
-        new PhraseSelectorWidget(this._tts),
+        new PhraseSelectorWidget(),
       ]),
     );
   }
