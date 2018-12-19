@@ -19,9 +19,12 @@ class ComposerState extends State<ComposerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(children: [
+    return Stack(children: [
+      Container(
+          child: Column(children: [
         Expanded(
+            child: Container(
+          decoration: BoxDecoration(color: Colors.grey[200]),
           child: TextField(
             maxLines: null,
             controller: this._textController,
@@ -31,21 +34,10 @@ class ComposerState extends State<ComposerWidget> {
               this._textController.text = value;
             },
           ),
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Container(
-            margin: const EdgeInsets.all(10.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.volume_up),
-              backgroundColor: Colors.pink,
-              onPressed: () {
-                this._tts.speak(this._textController.text);
-              },
-            ),
-          )
-        ]),
-        Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        )),
+        Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Expanded(
+              child: Row(children: [
             IconButton(
               icon: Icon(Icons.close),
               color: Colors.red,
@@ -65,11 +57,33 @@ class ComposerState extends State<ComposerWidget> {
               icon: Icon(Icons.save),
               color: Colors.black26,
               onPressed: () {},
+            )
+          ])),
+        ])
+      ])),
+      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: FloatingActionButton(
+              child: Icon(Icons.apps),
+              backgroundColor: Colors.cyan,
+              onPressed: () {},
             ),
-          ])
-        ]),
-        new PhraseSelectorWidget(this._tts),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: FloatingActionButton(
+              child: Icon(Icons.volume_up),
+              backgroundColor: Colors.deepOrangeAccent,
+              onPressed: () {
+                this._tts.speak(this._textController.text);
+              },
+            ),
+          )
+        ])
       ]),
-    );
+    ]);
+//        new PhraseSelectorWidget(this._tts),
   }
 }
