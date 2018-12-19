@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -11,8 +12,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _newVoiceText = "";
   FlutterTts flutterTts;
+  var textController = new TextEditingController();
 
   @override
   initState() {
@@ -21,12 +22,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future _speak() async {
-    await flutterTts.speak(_newVoiceText);
+    await flutterTts.speak(textController.text);
   }
 
   void _onChange(String text) {
     setState(() {
-      _newVoiceText = text;
+      textController.text = text;
     });
   }
 
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
                     Expanded(
                       child: TextField(
                         maxLines: null,
+                        controller: textController,
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Tu texto aquí'
@@ -102,6 +104,38 @@ class _MyAppState extends State<MyApp> {
                           ]
                       )
                     ),
+                    ExpansionTile(
+                      //key: PageStorageKey<Entry>(root),
+                      title: Text('Categorías de frases'),
+                      children: [
+                        ExpansionTile(
+                          title: Text('Saludos'),
+                          children: [
+                            new CustomListTile(this, 'Hola'),
+                            new CustomListTile(this, '¿Qué pasa?'),
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('En casa'),
+                          children: [
+                            new CustomListTile(this, '¿Puedes subir el volumen de la televisión?'),
+                            new CustomListTile(this, 'Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?'),
+                            new CustomListTile(this, 'Por favor, traeme un vaso de agua')
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('Cosas que me gustan'),
+                          children: [
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('Preguntas'),
+                          children: [
+                          ],
+                        ),
+
+                      ],
+                    ),
                   ]
                 ),
               ),
@@ -140,3 +174,21 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+class CustomListTile extends StatelessWidget {
+  String _text;
+  _MyAppState _appState;
+
+  CustomListTile(this._appState, this._text);
+
+  @override
+  Widget build(context) {
+    return new ListTile(
+        title: Text(this._text),
+        onTap: () {
+          this._appState.setState(() {
+            this._appState._onChange(this._text);
+          });
+        }
+    );
+  }
+}
