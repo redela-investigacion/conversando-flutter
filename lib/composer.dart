@@ -1,9 +1,10 @@
 import 'package:conversando/phraseSelector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:conversando/composerField.dart';
 
 class ComposerWidget extends StatefulWidget {
-  FlutterTts _tts;
+  final FlutterTts _tts;
 
   ComposerWidget(this._tts);
 
@@ -21,20 +22,15 @@ class ComposerState extends State<ComposerWidget> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-          child: Column(children: [
+        child: Column(children: [
         Expanded(
-            child: Container(
+          child: Container(
           decoration: BoxDecoration(color: Colors.grey[200]),
-          child: TextField(
-            maxLines: null,
-            controller: this._textController,
-            decoration: InputDecoration(
-                border: InputBorder.none, hintText: 'Tu texto aquí'),
-            onChanged: (String value) {
-              this._textController.text = value;
-            },
-          ),
-        )),
+            child: new ComposerFieldWidget(
+              this._textController
+            )
+          )
+        ),
         Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Expanded(
               child: Row(children: [
