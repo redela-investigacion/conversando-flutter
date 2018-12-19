@@ -4,6 +4,7 @@ licenses:
   - 'android-sdk-preview-license-.+'
   - 'android-sdk-license-.+'
   - 'google-gdk-license-.+'
+
 android:
   components:
     - tools
@@ -14,6 +15,7 @@ android:
     - extra-android-m2repository
     - extra-google-m2repository
     - extra-google-android-support
+
 jdk: oraclejdk8
 
 addons:
@@ -25,17 +27,13 @@ addons:
       - libstdc++6
       - fonts-droid
 before_script:
-  ## download and configure gradle
-  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
-  - unzip -qq gradle-3.5-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-3.5
-  - export PATH=$GRADLE_HOME/bin:$PATH
   - git clone https://github.com/flutter/flutter.git -b beta --depth 1
 
 script:
   - ./flutter/bin/flutter doctor
-  - ./flutter/bin/flutter -v build apk
-  # this would test tests, if any
+  # builds Android APK
+  # - ./flutter/bin/flutter -v build apk
+  # tests
   # - ./flutter/bin/flutter test
 cache:
   directories:
