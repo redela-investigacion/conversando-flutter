@@ -20,6 +20,7 @@ class SettingsWidget extends StatelessWidget {
       Divider(),
       new SettingsMenuOptionWidget(
         title: "Mis frases",
+        subtitle: "Gestiona tus frases y categorías",
         icon: Icons.chat,
         onTap: () {
           Route route = MaterialPageRoute(
