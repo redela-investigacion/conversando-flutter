@@ -56,8 +56,9 @@ class Category {
 }
 
 class TextContextWidgetState extends State<TextContextWidget>{
+  final List<String> _whiteSpaceSymbols = const [' ']; // TODO: [bug] this should works with [' ', '\r', '\n', '\t', '\f', '\v'] too
   final List<String> _punctuationSymbols = const ['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'];
-  final RegExp _tokenizerRegExp = RegExp(r"\w+|[.,;:?¿!¡'\-]", caseSensitive: false);
+  final RegExp _tokenizerRegExp = RegExp(r"\S+|[.,;:?¿!¡'\-]", caseSensitive: false);
 
   final _tts = new FlutterTts();
   String _text = "";
@@ -142,14 +143,14 @@ class TextContextWidgetState extends State<TextContextWidget>{
       String word = inputText.substring(0, inputText.length -1).trim();
       String symbol = inputText.substring(inputText.length -1, inputText.length);
 
-      // Space
-      if (symbol == ' ') {
+      // White Space symbols
+      if (_whiteSpaceSymbols.contains(symbol)) {
         _text = '';
         if (word != '') {
           _words.add(word);
         }
       }
-      // Marks
+      // Punctuation Symbols
       else if (_punctuationSymbols.contains(symbol)) {
         _text = '';
         if (word != '') {
