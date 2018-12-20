@@ -13,8 +13,6 @@ class ComposerFieldWidget extends StatefulWidget {
 class ComposerFieldState extends State<ComposerFieldWidget> {
    TextEditingController controller;
 
-  String _text = "";
-  List<String> _words = [];
    TextEditingController _textInputController = new TextEditingController();
 
   ComposerFieldState(this.controller) ;
