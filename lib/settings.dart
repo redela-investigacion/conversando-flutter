@@ -1,5 +1,5 @@
 import 'package:conversando/commons.dart';
-import 'package:conversando/editPhrase.dart';
+import 'package:conversando/managePhrase.dart';
 import 'package:conversando/help.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,7 @@ class SettingsWidget extends StatelessWidget {
         icon: Icons.chat,
         onTap: () {
           Route route = MaterialPageRoute(
-            builder: (context) => PhraseEditorWidget());
+            builder: (context) => CategoryManagerWidget());
           Navigator.push(context, route);
         },
       ),

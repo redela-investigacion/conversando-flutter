@@ -8,7 +8,7 @@ class ActionBarButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: new Text(this._label),
+      child: new Text(this._label, style: TextStyle(fontSize: 14.0),),
       textColor: Colors.white,
       onPressed: () {
         this._action();

@@ -44,15 +44,20 @@ class Phrase {
 
 class Category {
   String text;
-  List<Phrase> _phrases = [];
+  Map<String, Phrase> _phrases = new Map();
+
   Category(this.text);
 
   void addPhrase(String text) {
-    _phrases.add(new Phrase(text));
+    _phrases[text] = new Phrase(text);
   }
 
   List<Phrase> getPhrases() {
-    return _phrases;
+    return _phrases.values.toList();
+  }
+
+  void removePhrase(String text) {
+    _phrases.remove(text);
   }
 }
 
@@ -115,7 +120,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
     }
 
   }
-  
+
   List<String> _tokenizer(String text) {
     return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
   }
@@ -172,6 +177,25 @@ class TextContextWidgetState extends State<TextContextWidget>{
     setState(() {
       _categories.remove(c);
     });
+    _saveToStorage();
+  }
+
+  void editPhrase(String c, String oldPhrase, String newPhrase) {
+    setState(() {
+      Category category = _categories[c];
+      category.removePhrase(oldPhrase);
+      save(c, newPhrase);
+    });
+  }
+
+  void removePhrase(String c, String p) {
+    setState(() {
+      Category category = _categories[c];
+      category.removePhrase(p);
+
+      _categories[c] = category;
+    });
+    _saveToStorage();
   }
 
   void clearWords() {

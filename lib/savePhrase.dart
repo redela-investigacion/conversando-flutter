@@ -1,7 +1,7 @@
 import 'package:conversando/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
-import 'package:conversando/categoryDialog.dart';
+import 'package:conversando/showDialog.dart';
 
 class SavePhrase extends StatefulWidget {
   State createState() => new SavePhraseState();

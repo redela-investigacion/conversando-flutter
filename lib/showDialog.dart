@@ -9,17 +9,38 @@ Future showCreateCategoryDialog (context){
   );
 }
 
-Future showEditCategoryDialog (context){
+Future showEditCategoryDialog (context, oldCategoryText){
   return _showOneFieldDialog(
     context: context,
     dialogTitle: "EDITAR CATEGORÍA",
-    fieldLabel: "Nombre de la categoría",
-    actionLabel: "GUARDAR"
+    fieldLabel: "Nuevo nombre de la categoría",
+    actionLabel: "GUARDAR",
+    oldValue: oldCategoryText
   );
 }
 
-Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, String actionLabel} ){
+Future showCreatePhraseDialog (context){
+  return _showOneFieldDialog(
+    context: context,
+    dialogTitle: "AÑADIR FRASE",
+    fieldLabel: "Nueva frase",
+    actionLabel: "AÑADIR"
+  );
+}
+
+Future showEditPhraseDialog (context, oldPhraseText){
+  return _showOneFieldDialog(
+    context: context,
+    dialogTitle: "EDITAR FRASE",
+    fieldLabel: "Nueva frase",
+    actionLabel: "GUARDAR",
+    oldValue: oldPhraseText
+  );
+}
+
+Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, String actionLabel, String oldValue = ""} ){
   TextEditingController newCategoryController = new TextEditingController();
+
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -29,11 +50,12 @@ Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, Str
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             new Text(dialogTitle, textAlign: TextAlign.left),
-            Divider()
+            Divider(),
+            new Text(oldValue, textAlign: TextAlign.left, style: TextStyle(fontSize: 15.0, color: Colors.black87)),
           ]
         ),
         content: new ConstrainedBox(
-          constraints: new BoxConstraints.expand(height: 70.0),
+          constraints: new BoxConstraints.expand(height: 50.0),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
