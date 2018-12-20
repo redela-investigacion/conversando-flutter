@@ -86,6 +86,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
     });
   }
 
+  void replaceWords(int index, List<String> words) {
+    _words.replaceRange(index, index+1, words);
+  }
+
   String getText() {
     return _text;
   }
@@ -134,7 +138,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
         }
       }
       // Marks
-      else if (['.', ',', ';', ':', '\'', '"'].contains(symbol)) {
+      else if (['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'].contains(symbol)) {
         _text = '';
         if (word != '') {
           _words.add(word);

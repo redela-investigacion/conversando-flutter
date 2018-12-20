@@ -14,39 +14,32 @@ class SpeakerWidget extends StatelessWidget {
               childAspectRatio: 2.5,
               shrinkWrap: true,
               children: <Widget>[
-            new RaisedButton(
-                child: new Text("Sí"),
-                onPressed: () {
-                  tc.speak("Sí", context);
-                }),
-            new RaisedButton(
-                child: new Text("No"),
-                onPressed: () {
-                  tc.speak("No", context);
-                }),
-            new RaisedButton(
-                child: new Text("Hola"),
-                onPressed: () {
-                  tc.speak("Hola", context);
-                }),
-            new RaisedButton(
-                child: new Text("¿Cómo estás?"),
-                onPressed: () {
-                  tc.speak("¿Cómo estás?", context);
-                }),
-            new RaisedButton(
-                child: new Text("Bien"),
-                onPressed: () {
-                  tc.speak("Bien", context);
-                }),
-            new RaisedButton(
-                child: new Text("Gracias"),
-                onPressed: () {
-                  tc.speak("Gracias", context);
-                }),
+                new QuickSpeakWidget("Sí"),
+                new QuickSpeakWidget("No"),
+                new QuickSpeakWidget("Hola"),
+                new QuickSpeakWidget("Perdona"),
+                new QuickSpeakWidget("Bien"),
+                new QuickSpeakWidget("Gracias")
             // 4 Text Fields here
           ])),
-      new PhraseSelectorWidget(),
+      new ExpansionPhraseSelector(),
     ]);
+  }
+}
+
+class QuickSpeakWidget extends StatelessWidget {
+  final String _label;
+
+  QuickSpeakWidget(this._label);
+
+  @override
+  Widget build(BuildContext context) {
+    final TextContextWidgetState tc = TextContextWidget.of(context);
+
+    return new RaisedButton(
+        child: new Text(this._label),
+        onPressed: () {
+          tc.speak(this._label, context);
+        });
   }
 }

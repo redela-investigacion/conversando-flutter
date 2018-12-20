@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                   ),
+                  backgroundColor: Colors.cyan,
                 ),
                 body: new TabBarView(
                   children: [
