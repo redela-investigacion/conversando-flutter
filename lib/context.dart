@@ -95,29 +95,26 @@ class TextContextWidgetState extends State<TextContextWidget>{
         });
       });
     }
+    else {
+      Category tmpCat1 = new Category('😍 Saludos');
+      tmpCat1.addPhrase('Hola');
+      tmpCat1.addPhrase('¿Qué pasa?');
+
+      Category tmpCat2 = new Category('🌎 En casa');
+      tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
+      tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
+      tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
+
+      Category tmpCat3 = new Category('😙 Cosas que me gustan');
+
+      Category tmpCat4 = new Category('🌐 Preguntas');
+      _categories[tmpCat1.text] = tmpCat1;
+      _categories[tmpCat2.text] = tmpCat2;
+      _categories[tmpCat3.text] = tmpCat3;
+      _categories[tmpCat4.text] = tmpCat4;
+    }
 
   }
-
-  /*
-  TextContextWidgetState(){
-    Category tmpCat1 = new Category('😍 Saludos');
-    tmpCat1.addPhrase('Hola');
-    tmpCat1.addPhrase('¿Qué pasa?');
-
-    Category tmpCat2 = new Category('🌎 En casa');
-    tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
-    tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
-    tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
-
-    Category tmpCat3 = new Category('😙 Cosas que me gustan');
-
-    Category tmpCat4 = new Category('🌐 Preguntas');
-    _categories[tmpCat1.text] = tmpCat1;
-    _categories[tmpCat2.text] = tmpCat2;
-    _categories[tmpCat3.text] = tmpCat3;
-    _categories[tmpCat4.text] = tmpCat4;
-  }
-  */
 
   List<String> _tokenizer(String text) {
     return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
