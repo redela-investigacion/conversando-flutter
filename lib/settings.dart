@@ -1,15 +1,16 @@
-import 'package:conversando/context.dart';
+import 'package:conversando/commons.dart';
 import 'package:conversando/editPhrase.dart';
+import 'package:conversando/help.dart';
 import 'package:flutter/material.dart';
 
 class SettingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      ListTile (
-        title: Text("María de Antón"),
-        subtitle: Text("estoesunmail@gmail.com"),
-        leading: Icon(Icons.account_circle, color: Colors.cyan, size: 24.0),
+      new SettingsMenuOptionWidget (
+        title: "María de Antón",
+        subtitle: "estoesunmail@gmail.com",
+        icon: Icons.account_circle,
         onTap: () {
 //            Route route = MaterialPageRoute(
 //              builder: (context) => LoginWidget());
@@ -17,36 +18,36 @@ class SettingsWidget extends StatelessWidget {
         },
       ),
       Divider(),
-      ListTile (
-        title: const Text("Mis frases"),
-        leading: Icon(Icons.chat, color: Colors.cyan, size: 24.0),
+      new SettingsMenuOptionWidget(
+        title: "Mis frases",
+        icon: Icons.chat,
         onTap: () {
           Route route = MaterialPageRoute(
             builder: (context) => PhraseEditorWidget());
           Navigator.push(context, route);
         },
       ),
-      ListTile (
-        title: Text("Ajustes de voz"),
-        leading: Icon(Icons.keyboard_voice, color: Colors.cyan, size: 24.0),
+      new SettingsMenuOptionWidget(
+        title: "Ajustes de voz",
+        icon: Icons.keyboard_voice,
         onTap: () {
           Route route = MaterialPageRoute(
             builder: (context) => VoiceSettingsWidget());
           Navigator.push(context, route);
         },
       ),
-      ListTile (
-        title: Text("Tamaño de fuente"),
-        leading: Icon(Icons.format_size, color: Colors.cyan, size: 24.0),
+      new SettingsMenuOptionWidget(
+        title: "Tamaño de fuente",
+        icon: Icons.format_size,
         onTap: () {
           Route route = MaterialPageRoute(
             builder: (context) => FontSettingsWidget());
           Navigator.push(context, route);
         },
       ),
-      ListTile (
-        title: Text("Ayuda"),
-        leading: Icon(Icons.help, color: Colors.cyan, size: 24.0),
+      new SettingsMenuOptionWidget(
+        title: "Ayuda",
+        icon: Icons.help,
         onTap: () {
           Route route = MaterialPageRoute(
             builder: (context) => HelpWidget());
@@ -88,31 +89,23 @@ class FontSettingsWidget extends StatelessWidget {
   }
 }
 
-class HelpWidget extends StatelessWidget {
-  @override
-  Widget build(context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.cyan,
-        title: Text("Ayuda"),
-      ),
-      body: Column(children: [ new Text("Ayudaaaaaarggg")])
-      );
-  }
-}
+class SettingsMenuOptionWidget extends StatelessWidget {
+  String title;
+  String subtitle;
+  IconData icon;
+  Function onTap;
 
-class SaveButtonWidget extends StatelessWidget {
-  Function _action;
+  SettingsMenuOptionWidget({this.title, this.subtitle, this.icon, this.onTap});
 
-  SaveButtonWidget(this._action);
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      child: new Text('GUARDAR'),
-      textColor: Colors.white,
-      onPressed: () {
-        this._action();
-      });
+    return ListTile (
+      title: Text(this.title),
+      subtitle: this.subtitle != null ? Text(this.subtitle) : null ,
+      leading: Icon(this.icon, color: Colors.cyan, size: 24.0),
+      onTap: this.onTap,
+    );
   }
 
 }
+

@@ -1,4 +1,4 @@
-import 'package:conversando/settings.dart';
+import 'package:conversando/commons.dart';
 import 'package:flutter/material.dart';
 
 class PhraseEditorWidget extends StatelessWidget {

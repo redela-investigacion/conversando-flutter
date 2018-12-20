@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
                     children: [
                       new TabBar(
                         tabs: [
-                          Tab(text: "COMPONER"),
-                          Tab(text: "HABLAR"),
-                          Tab(text: "AJUSTES"),
+                          Tab(text: "Componer"),
+                          Tab(text: "Hablar"),
+                          Tab(text: "Ajustes"),
                         ],
                       ),
                     ],
