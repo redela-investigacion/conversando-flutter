@@ -56,6 +56,9 @@ class Category {
 }
 
 class TextContextWidgetState extends State<TextContextWidget>{
+  final List<String> _punctuationSymbols = const ['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'];
+  final RegExp _tokenizerRegExp = RegExp(r"\w+|[.,;:?¿!¡'\-]", caseSensitive: false);
+
   final _tts = new FlutterTts();
   String _text = "";
   List<String> _words = [];
@@ -80,14 +83,19 @@ class TextContextWidgetState extends State<TextContextWidget>{
     _categories.add(tmpCat4);
   }
 
+  List<String> _tokenizer(String text) {
+    return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
+  }
+
   void deleteWord(String word) {
     setState(() {
       _words.remove(word);
     });
   }
 
-  void replaceWords(int index, List<String> words) {
-    _words.replaceRange(index, index+1, words);
+  void replaceWord(int index, String text) {
+    List<String> newWords = _tokenizer(text);
+    _words.replaceRange(index, index+1, newWords);
   }
 
   String getText() {
@@ -138,7 +146,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
         }
       }
       // Marks
-      else if (['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'].contains(symbol)) {
+      else if (_punctuationSymbols.contains(symbol)) {
         _text = '';
         if (word != '') {
           _words.add(word);
@@ -156,7 +164,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
     _tts.speak(text);
 
     final snackBar = SnackBar(
-      content: Text("Diciendo: ${text}"),
+      content: Text("Diciendo: $text"),
       action: SnackBarAction(
         label: 'Reproducir de nuevo',
         onPressed: () {

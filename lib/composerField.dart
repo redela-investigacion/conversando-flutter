@@ -62,8 +62,7 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
               child: const Text('GUARDAR'),
               onPressed: () {
                 setState(() {
-                  List<String> newWords = tokenizer(editorTextInputController.text);
-                  tc.replaceWords(index, newWords);
+                  tc.replaceWord(index, editorTextInputController.text);
                   controller.text = tc.getText();
                   Navigator.pop(context);
                 });
