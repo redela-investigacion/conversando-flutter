@@ -23,7 +23,7 @@ class ComposerWidget extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.close),
               color: Colors.red,
-              onPressed: () {},
+              onPressed: tc.clearText,
             ),
             IconButton(
               icon: Icon(Icons.undo),
@@ -39,7 +39,7 @@ class ComposerWidget extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.save),
               color: Colors.black26,
-              onPressed: () {},
+              onPressed: tc.save,
             )
           ])),
         ])

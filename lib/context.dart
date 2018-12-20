@@ -37,10 +37,11 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   String _text = "";
   List<String> _words = [];
+  List<String> _phrases = [];
 
   void deleteWord(String word) {
     setState(() {
-      _words .remove(word);
+      _words.remove(word);
     });
   }
 
@@ -54,6 +55,20 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   String getTextPhrase() {
     return [_words.join(' '), _text].join(" ");
+  }
+
+  void clearText(){
+    setState(() {
+      _words = [];
+      _text = "";
+    });
+  }
+
+  void save(){
+    setState(() {
+      _phrases.add(getTextPhrase());
+      print("SAVE: ${getTextPhrase()}");
+    });
   }
 
   void onTextChange(String inputText) {
