@@ -110,8 +110,8 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return [_words.join(' '), _text].join(" ");
   }
 
-  void addCategory(Category c) {
-    _categories[c.text] = c;
+  void addCategory(String c) {
+    _categories[c] = new Category(c);
   }
 
   List<Category> getCategories() {
