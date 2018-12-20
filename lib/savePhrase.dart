@@ -1,6 +1,7 @@
 import 'package:conversando/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
+import 'package:conversando/createCategoryDialog.dart';
 
 class SavePhrase extends StatefulWidget {
   State createState() => new SavePhraseState();
@@ -54,41 +55,7 @@ class SavePhraseState extends State<SavePhrase> {
                   'AÑADIR CATEGORÍA',
                 ),
                 onPressed: () {
-                  TextEditingController newCategoryController = new TextEditingController();
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      // return object of type Dialog
-                      return AlertDialog(
-                        title: new Text("AÑADIR CATEGORÍA"),
-                        content: new Column(children: [
-                          new Text("Nombre de la categoría"),
-                          new TextField(
-                            controller: newCategoryController,
-                            decoration: InputDecoration(
-                              hintText: 'Nombre de la categoría'
-                            ),
-                          )
-                        ]),
-                        actions: <Widget>[
-                          // usually buttons at the bottom of the dialog
-                          new FlatButton(
-                            child: new Text("CANCELAR"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          new FlatButton(
-                            child: new Text("AÑADIR"),
-                            onPressed: () {
-                              Navigator.pop(context, newCategoryController.text);
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                  ).then<void>((value) { // The value passed to Navigator.pop() or null.
+                  showCreateCategoryDialog(context).then((value) { // The value passed to Navigator.pop() or null.
                     if (value != null) {
                       tc.addCategory(value);
                       setState(() {
