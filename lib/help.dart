@@ -5,7 +5,6 @@ class HelpWidget extends StatelessWidget {
   Widget build(context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.cyan,
         title: Text("Ayuda"),
       ),
       body: Column(children: [ new Text("Ayudaaaaaarggg")])

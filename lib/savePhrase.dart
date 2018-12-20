@@ -15,10 +15,9 @@ class SavePhraseState extends State<SavePhrase> {
     return new Scaffold(
       appBar:
       new AppBar(
-        backgroundColor: Colors.cyan,
         title: Text('Añadir frase'),
         actions: <Widget>[
-        new SaveButtonWidget(() {
+        new ActionBarButtonWidget("GUARDAR", () {
           tc.save(selectedCategory, tc.getTextPhrase());
           setState(() {
             Navigator.pop(context);

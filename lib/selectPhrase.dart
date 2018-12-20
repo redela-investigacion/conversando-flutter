@@ -31,7 +31,7 @@ class FullPagePhraseSelector extends StatelessWidget {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
     return new Scaffold(
-      appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Mis frases")),
+      appBar: new AppBar(title: Text("Mis frases")),
       body: Column(children: tc.getCategories().map((Category category) {
         return ExpansionTile(
           title: Text(category.text),

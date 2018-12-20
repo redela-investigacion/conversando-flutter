@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextContextWidget(
       child: MaterialApp(
-          theme: ThemeData(fontFamily: 'Roboto'),
+          theme: ThemeData(fontFamily: "Roboto").copyWith(
+            primaryColor: Colors.cyan,
+          ),
           home: new DefaultTabController(
               length: 3,
               child: new Scaffold(
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       new TabBar(
+                        labelStyle: new TextStyle(fontSize: 18.0),
                         tabs: [
                           Tab(text: "Componer"),
                           Tab(text: "Hablar"),
@@ -30,7 +33,6 @@ class MyApp extends StatelessWidget {
                       ),
                     ],
                   ),
-                  backgroundColor: Colors.cyan,
                 ),
                 body: new TabBarView(
                   children: [

@@ -62,10 +62,9 @@ class VoiceSettingsWidget extends StatelessWidget {
   Widget build(context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.cyan,
         title: Text("Ajustes de voz"),
         actions: <Widget>[
-          new SaveButtonWidget(() { Navigator.pop(context);})
+          new ActionBarButtonWidget("GUARDAR", () { Navigator.pop(context);})
         ]
       ),
       body: Column(children: [])
@@ -78,10 +77,9 @@ class FontSettingsWidget extends StatelessWidget {
   Widget build(context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.cyan,
         title: Text("Tamaño de fuente"),
         actions: <Widget>[
-          new SaveButtonWidget(() { Navigator.pop(context);})
+          new ActionBarButtonWidget("GUARDAR", () { Navigator.pop(context);})
         ]
       ),
       body: Column(children: [])
@@ -102,7 +100,7 @@ class SettingsMenuOptionWidget extends StatelessWidget {
     return ListTile (
       title: Text(this.title),
       subtitle: this.subtitle != null ? Text(this.subtitle) : null ,
-      leading: Icon(this.icon, color: Colors.cyan, size: 24.0),
+      leading: Icon(this.icon, color: Theme.of(context).primaryColor, size: 24.0),
       onTap: this.onTap,
     );
   }
