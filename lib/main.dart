@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 
     return TextContextWidget(
       child: MaterialApp(
+          theme: ThemeData(fontFamily: 'Roboto'),
           home: new DefaultTabController(
               length: 3,
               child: new Scaffold(
