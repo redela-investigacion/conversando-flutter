@@ -25,24 +25,29 @@ Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, Str
     builder: (BuildContext context) {
     // return object of type Dialog
       return AlertDialog(
-        title: new Text(dialogTitle),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            new Text(dialogTitle, textAlign: TextAlign.left),
+            Divider()
+          ]
+        ),
         content: new ConstrainedBox(
-          constraints: new BoxConstraints.expand(height: 100.0),
-          child: new Column(children: [
-            new Text(fieldLabel),
-            new TextField(
-              controller: newCategoryController,
-              decoration: InputDecoration(
-                hintText: fieldLabel
-              ),
-            )
-          ])
+          constraints: new BoxConstraints.expand(height: 70.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              new TextField(
+                controller: newCategoryController,
+                decoration: InputDecoration(hintText: fieldLabel, hintStyle: TextStyle(fontSize: 15.0, color: Colors.black38)),
+              )
+            ])
         ),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
             child: new Text("CANCELAR"),
-            textColor: Colors.black54,
+            textColor: Colors.black87,
             onPressed: () {
               Navigator.pop(context);
             },
