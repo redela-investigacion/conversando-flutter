@@ -7,7 +7,7 @@ class ExpansionPhraseSelector extends StatelessWidget {
     final TextContextWidgetState tc = TextContextWidget.of(context);
     return ExpansionTile(
       //key: PageStorageKey<Entry>(root),
-        title: Text('Categorías de frases'),
+        title: Text("Categorías de frases"),
         children: tc.getCategories().map((Category category) {
           return new ExpansionTile(
               title: Text(category.text),
@@ -24,8 +24,7 @@ class FullPagePhraseSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
     return new Scaffold(
-        appBar:
-        new AppBar(backgroundColor: Colors.cyan, title: Text('Mis frases')),
+        appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Mis frases")),
         body: Column(children: tc.getCategories().map((Category category) {
           return ExpansionTile(
               title: Text(category.text),
@@ -52,5 +51,15 @@ class PhraseWidget extends StatelessWidget {
         onTap: () {
           tc.speak(this._text, context);
         });
+  }
+}
+
+class PhraseEditorWidget extends StatelessWidget {
+  @override
+  Widget build(context) {
+    return new Scaffold(
+      appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Mis frases")),
+      body: Column(children: [])
+    );
   }
 }

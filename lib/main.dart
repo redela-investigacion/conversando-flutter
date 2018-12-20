@@ -1,3 +1,4 @@
+import 'package:conversando/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/composer.dart';
 import 'package:conversando/speaker.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
                     //Composer
                     new ComposerWidget(),
                     new SpeakerWidget(),
-                    new Text("TODO SETTINGS"),
+                    new SettingsWidget(),
                   ],
                 ),
               )

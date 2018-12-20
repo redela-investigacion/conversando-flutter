@@ -1,4 +1,4 @@
-import 'package:conversando/phraseSelector.dart';
+import 'package:conversando/phrases.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 import 'package:conversando/composerField.dart';
@@ -43,7 +43,7 @@ class ComposerWidget extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.save),
-                color: Colors.black26,
+                color: Colors.black54,
                 onPressed: () {
                   Route route = MaterialPageRoute(
                       builder: (context) => SavePhrase());

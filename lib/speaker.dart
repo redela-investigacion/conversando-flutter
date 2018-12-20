@@ -1,6 +1,5 @@
-import 'package:conversando/phraseSelector.dart';
+import 'package:conversando/phrases.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:conversando/context.dart';
 
 class SpeakerWidget extends StatelessWidget {
