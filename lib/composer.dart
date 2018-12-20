@@ -2,6 +2,7 @@ import 'package:conversando/phraseSelector.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 import 'package:conversando/composerField.dart';
+import 'package:conversando/savePhrase.dart';
 
 class ComposerWidget extends StatelessWidget {
   final TextEditingController _textController = new TextEditingController();
@@ -43,7 +44,11 @@ class ComposerWidget extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.save),
                 color: Colors.black26,
-                onPressed: tc.save,
+                onPressed: () {
+                  Route route = MaterialPageRoute(
+                      builder: (context) => SavePhrase());
+                  Navigator.push(context, route);
+                },
               )
             ])),
           ])

@@ -62,7 +62,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
   final _tts = new FlutterTts();
   String _text = "";
   List<String> _words = [];
-  List<Category> _categories = [];
+  Map<String, Category> _categories = Map();
 
   TextContextWidgetState(){
     Category tmpCat1 = new Category('😍 Saludos');
@@ -77,10 +77,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
     Category tmpCat3 = new Category('😙 Cosas que me gustan');
 
     Category tmpCat4 = new Category('🌐 Preguntas');
-    _categories.add(tmpCat1);
-    _categories.add(tmpCat2);
-    _categories.add(tmpCat3);
-    _categories.add(tmpCat4);
+    _categories[tmpCat1.text] = tmpCat1;
+    _categories[tmpCat2.text] = tmpCat2;
+    _categories[tmpCat3.text] = tmpCat3;
+    _categories[tmpCat4.text] = tmpCat4;
   }
 
   List<String> _tokenizer(String text) {
@@ -111,11 +111,11 @@ class TextContextWidgetState extends State<TextContextWidget>{
   }
 
   void addCategory(Category c) {
-    _categories.add(c);
+    _categories[c.text] = c;
   }
 
   List<Category> getCategories() {
-    return _categories;
+    return _categories.values.toList();
   }
 
   void clearText(){
@@ -125,11 +125,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
     });
   }
 
-  void save(){
+  void save(String category, String phrase){
     setState(() {
-      Category c = new Category("TEST");
-      c.addPhrase(getTextPhrase());
-      _categories.add(c);
+      Category cat = _categories[category];
+      cat.addPhrase(phrase);
     });
   }
 
