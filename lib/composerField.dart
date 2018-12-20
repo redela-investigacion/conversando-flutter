@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 
-final RegExp tokenizerRegExp = RegExp(r"\w+|[.,;:?¿!¡'\-]", caseSensitive: false);
-
-List<String> tokenizer(String text) {
-  return tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
-}
-
 class ComposerFieldWidget extends StatefulWidget {
-  final TextEditingController controller;
-  final bool autofocus;
-
-  ComposerFieldWidget({this.controller, this.autofocus: false}):
-        assert(controller != null);
+  ComposerFieldWidget();
 
   @override
-  ComposerFieldState createState() => new ComposerFieldState(this.controller, this.autofocus);
+  ComposerFieldState createState() => new ComposerFieldState();
 }
 
 class ComposerFieldState extends State<ComposerFieldWidget> {
-  TextEditingController controller;
-  bool autofocus;
-
   TextEditingController _textInputController = new TextEditingController();
 
-  ComposerFieldState(this.controller, this.autofocus);
+  ComposerFieldState();
 
   _showDialog(String word, int index, TextContextWidgetState tc) async {
     TextEditingController editorTextInputController = new TextEditingController();
@@ -63,7 +50,6 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
               onPressed: () {
                 setState(() {
                   tc.replaceWord(index, editorTextInputController.text);
-                  controller.text = tc.getText();
                   Navigator.pop(context);
                 });
               }
@@ -91,7 +77,6 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
           },
           onDeleted: () {
             tc.deleteWord(word);
-            controller.text = tc.getText();
           }
         )
       );
@@ -100,7 +85,6 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
     widgets.add(
       new TextField(
         maxLines: null,
-        autofocus: autofocus,
         controller: _textInputController,
         decoration: InputDecoration(
           hintText: 'Tu texto aquí'
@@ -108,7 +92,7 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
         onChanged: (String value) {
           tc.onTextChange(value);
           if (tc.getText() == '') {
-            _textInputController.text = '';
+            _textInputController.clear();
           }
         }
       )

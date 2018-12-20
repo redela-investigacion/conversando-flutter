@@ -5,8 +5,6 @@ import 'package:conversando/composerField.dart';
 import 'package:conversando/savePhrase.dart';
 
 class ComposerWidget extends StatelessWidget {
-  final TextEditingController _textController = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
@@ -19,7 +17,7 @@ class ComposerWidget extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(color: Colors.grey[200]),
               padding: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 100.0, left: 10.0),
-              child: new ComposerFieldWidget(controller: this._textController))
+              child: new ComposerFieldWidget())
           ),
           // Actions bar
           Row(crossAxisAlignment: CrossAxisAlignment.end, children: [

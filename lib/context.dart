@@ -98,6 +98,11 @@ class TextContextWidgetState extends State<TextContextWidget>{
     _words.replaceRange(index, index+1, newWords);
   }
 
+  void appendText( String text) {
+    List<String> newWords = _tokenizer(text);
+    _words.addAll(newWords);
+  }
+
   String getText() {
     return _text;
   }
