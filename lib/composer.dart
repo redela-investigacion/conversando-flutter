@@ -8,7 +8,7 @@ class ComposerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextContext tc = TextContext.of(context);
+    final TextContextWidgetState tc = TextContextWidget.of(context);
 
     return Stack(children: [
       Container(
@@ -33,7 +33,8 @@ class ComposerWidget extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.share),
               color: Colors.black54,
-              onPressed: () {},
+              onPressed: () {
+              },
             ),
             IconButton(
               icon: Icon(Icons.save),

@@ -6,7 +6,7 @@ import 'package:conversando/context.dart';
 class SpeakerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextContext tc = TextContext.of(context);
+    final TextContextWidgetState tc = TextContextWidget.of(context);
     return Column(children: [
       Expanded(
           child: GridView.count(

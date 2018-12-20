@@ -5,7 +5,7 @@ class PhraseSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextContext tc = TextContext.of(context);
+    final TextContextWidgetState tc = TextContextWidget.of(context);
     return ExpansionTile(
       //key: PageStorageKey<Entry>(root),
       title: Text('Categorías de frases'),
@@ -45,7 +45,7 @@ class PhraseWidget extends StatelessWidget {
 
   @override
   Widget build(context) {
-    final TextContext tc = TextContext.of(context);
+    final TextContextWidgetState tc = TextContextWidget.of(context);
     return new ListTile(
         title: Text(this._text),
         onTap: () {
