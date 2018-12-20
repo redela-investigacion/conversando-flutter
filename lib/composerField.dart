@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:conversando/context.dart';
 
 class ComposerFieldWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -10,66 +11,28 @@ class ComposerFieldWidget extends StatefulWidget {
 }
 
 class ComposerFieldState extends State<ComposerFieldWidget> {
-  TextEditingController controller;
+   TextEditingController controller;
 
   String _text = "";
   List<String> _words = [];
-  TextEditingController _textInputController = new TextEditingController();
+   TextEditingController _textInputController = new TextEditingController();
 
   ComposerFieldState(this.controller) ;
 
-  String _getTextPhrase() {
-    return [_words.join(' '), _text].join(" ");
+  initialValue(val) {
+    return TextEditingController(text: val);
   }
 
-  void onChange(String text) {
-    setState(() {
-      String word = text.substring(0, text.length -1).trim();
-      String symbol = text.substring(text.length -1, text.length);
-
-      // Space
-      if (symbol == ' ') {
-        _text = '';
-        _textInputController.clear();
-
-        String word = text.trim();
-
-        if (word != '') {
-          _words.add(word);
-        }
-
-      }
-      // Marks
-      else if (['.', ',', ';', ':', '\'', '"'].contains(symbol)) {
-        _text = '';
-        _textInputController.clear();
-
-        if (word != '') {
-          _words.add(word);
-        }
-        _words.add(symbol);
-      }
-      // default
-      else {
-        _text = text;
-      }
-
-      controller.text = _getTextPhrase();
-    });
-  }
-
-  List<Widget> _getTextWidgets () {
+  List<Widget> _getTextWidgets (TextContextWidgetState tc) {
     List<Widget> widgets = [];
 
-    _words.forEach((word) {
+    tc.getWords().forEach((word) {
       widgets.add(
           new InputChip(
               label: Text(word),
               onDeleted: () {
-                setState(() {
-                  _words.remove(word);
-                  controller.text = _getTextPhrase();
-                });
+                tc.deleteWord(word);
+                controller.text = tc.getText();
               }
           )
       );
@@ -83,8 +46,11 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
               hintText: 'Tu texto aquí'
           ),
           onChanged: (String value) {
-            onChange(value);
-          },
+            tc.onTextChange(value);
+            if (tc.getText() == '') {
+              _textInputController.text = '';
+            }
+          }
         )
     );
 
@@ -93,13 +59,15 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final TextContextWidgetState tc = TextContextWidget.of(context);
+
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(),
         child: new Wrap(
           spacing: 8.0, // gap between adjacent chips
           runSpacing: 1.0, // gap between lines
-          children: _getTextWidgets(),
+          children: _getTextWidgets(tc),
         )
       )
     );

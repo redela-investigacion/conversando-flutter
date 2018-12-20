@@ -16,7 +16,7 @@ class ComposerWidget extends StatelessWidget {
         Expanded(
             child: Container(
                 decoration: BoxDecoration(color: Colors.grey[200]),
-                child: new ComposerFieldWidget(this._textController))),
+                child: new ComposerFieldWidget(_textController))),
         Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Expanded(
               child: Row(children: [
@@ -60,8 +60,7 @@ class ComposerWidget extends StatelessWidget {
               child: Icon(Icons.volume_up),
               backgroundColor: Colors.deepOrangeAccent,
               onPressed: () {
-                tc.speak(this._textController.text, context);
-                //this.notify(this._textController.text);
+                tc.speak(tc.getTextPhrase(), context);
               },
             ),
           )

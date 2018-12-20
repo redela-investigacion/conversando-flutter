@@ -1,37 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-/*
-class TextContext extends InheritedWidget {
-  //final FlutterTts tts;
-  final Function(String text, BuildContext context) speak;
-
-  const TextContext({
-    Key key,
-    @required this.speak,
-    @required Widget child,
-  })  : assert(speak != null),
-        assert(child != null),
-        super(key: key, child: child);
-
-  static TextContext of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(TextContext);
-  }
-
-  @override
-  bool updateShouldNotify(TextContext old) {
-    //return color != old.color;
-    return false;
-  }
-}
-*/
-
-class Item {
-  String reference;
-
-  Item(this.reference);
-}
-
 class _TextContext extends InheritedWidget {
   _TextContext({
     Key key,
@@ -66,16 +35,51 @@ class TextContextWidget extends StatefulWidget {
 class TextContextWidgetState extends State<TextContextWidget>{
   final _tts = new FlutterTts();
 
-  /// List of Items
-  List<Item> _items = <Item>[];
+  String _text = "";
+  List<String> _words = [];
 
-  /// Getter (number of items)
-  int get itemsCount => _items.length;
+  void deleteWord(String word) {
+    setState(() {
+      _words .remove(word);
+    });
+  }
 
-  /// Helper method to add an Item
-  void addItem(String reference){
-    setState((){
-      _items.add(new Item(reference));
+  String getText() {
+    return _text;
+  }
+
+  List<String> getWords() {
+    return _words;
+  }
+
+  String getTextPhrase() {
+    return [_words.join(' '), _text].join(" ");
+  }
+
+  void onTextChange(String inputText) {
+    setState(() {
+      String word = inputText.substring(0, inputText.length -1).trim();
+      String symbol = inputText.substring(inputText.length -1, inputText.length);
+
+      // Space
+      if (symbol == ' ') {
+        _text = '';
+        if (word != '') {
+          _words.add(word);
+        }
+      }
+      // Marks
+      else if (['.', ',', ';', ':', '\'', '"'].contains(symbol)) {
+        _text = '';
+        if (word != '') {
+          _words.add(word);
+        }
+        _words.add(symbol);
+      }
+      // default
+      else {
+        _text = inputText;
+      }
     });
   }
 
