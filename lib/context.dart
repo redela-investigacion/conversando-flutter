@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:localstorage/localstorage.dart';
 
 class _TextContext extends InheritedWidget {
   _TextContext({
@@ -59,12 +60,48 @@ class TextContextWidgetState extends State<TextContextWidget>{
   final List<String> _whiteSpaceSymbols = const [' ']; // TODO: [bug] this should works with [' ', '\r', '\n', '\t', '\f', '\v'] too
   final List<String> _punctuationSymbols = const ['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'];
   final RegExp _tokenizerRegExp = RegExp(r"\S+|[.,;:?¿!¡'\-]", caseSensitive: false);
-
   final _tts = new FlutterTts();
+  final LocalStorage storage = new LocalStorage('conversando_app');
+  bool initialized = false;
+
   String _text = "";
   List<String> _words = [];
   Map<String, Category> _categories = Map();
 
+  _saveToStorage() {
+    List<dynamic> data = new List();
+    _categories.forEach((String id, Category category) {
+      data.add({
+        'id': id,
+        'phrases': category.getPhrases().map((Phrase p) {
+          return {
+            'text': p._text
+          };
+        }).toList()
+      });
+    });
+    storage.setItem('categories', data);
+  }
+
+  _loadFromStorage() {
+    dynamic categories = storage.getItem('categories');
+    print(categories);
+
+    if (categories != null) {
+      (categories as List).forEach((category) {
+        print("X");
+        print(category);
+        String id = category['id'];
+        _categories[id] = new Category(id);
+        (category['phrases'] as List).forEach((phrase) {
+          _categories[id].addPhrase(phrase['text']);
+        });
+      });
+    }
+
+  }
+
+  /*
   TextContextWidgetState(){
     Category tmpCat1 = new Category('😍 Saludos');
     tmpCat1.addPhrase('Hola');
@@ -83,6 +120,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
     _categories[tmpCat3.text] = tmpCat3;
     _categories[tmpCat4.text] = tmpCat4;
   }
+  */
 
   List<String> _tokenizer(String text) {
     return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
@@ -118,6 +156,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void addCategory(String c) {
     _categories[c] = new Category(c);
+    _saveToStorage();
   }
 
   List<Category> getCategories() {
@@ -136,6 +175,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
       Category cat = _categories[category];
       cat.addPhrase(phrase);
     });
+    _saveToStorage();
   }
 
   void onTextChange(String inputText) {
@@ -182,9 +222,25 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   @override
   Widget build(BuildContext context){
-    return new _TextContext(
-      data: this,
-      child: widget.child,
+    return FutureBuilder(
+      future: storage.ready,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (!initialized) {
+          _loadFromStorage();
+          initialized = true;
+        }
+
+        return new _TextContext(
+          data: this,
+          child: widget.child,
+        );
+      }
     );
   }
 }
