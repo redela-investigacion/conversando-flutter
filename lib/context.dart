@@ -164,7 +164,13 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return _categories.values.toList();
   }
 
-  void clearWords(){
+  void removeCategory(String c) {
+    setState(() {
+      _categories.remove(c);
+    });
+  }
+
+  void clearWords() {
     setState(() {
       _words = [];
     });
@@ -172,7 +178,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void clearText(){
     setState(() {
-      _words = [];
+      _text = "";
     });
   }
 
