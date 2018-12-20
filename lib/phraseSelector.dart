@@ -6,6 +6,7 @@ class PhraseSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
+
     return ExpansionTile(
       title: Text('Categorías de frases'),
       children: tc.getCategories().map((Category category) {
@@ -28,6 +29,7 @@ class PhraseWidget extends StatelessWidget {
   @override
   Widget build(context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
+
     return new ListTile(
         title: Text(this._text),
         onTap: () {

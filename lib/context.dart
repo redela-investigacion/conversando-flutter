@@ -57,12 +57,28 @@ class Category {
 
 class TextContextWidgetState extends State<TextContextWidget>{
   final _tts = new FlutterTts();
-
   String _text = "";
   List<String> _words = [];
-  List<String> _phrases = [];
-
   List<Category> _categories = [];
+
+  TextContextWidgetState(){
+    Category tmpCat1 = new Category('😍 Saludos');
+    tmpCat1.addPhrase('Hola');
+    tmpCat1.addPhrase('¿Qué pasa?');
+
+    Category tmpCat2 = new Category('🌎 En casa');
+    tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
+    tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
+    tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
+
+    Category tmpCat3 = new Category('😙 Cosas que me gustan');
+
+    Category tmpCat4 = new Category('🌐 Preguntas');
+    _categories.add(tmpCat1);
+    _categories.add(tmpCat2);
+    _categories.add(tmpCat3);
+    _categories.add(tmpCat4);
+  }
 
   void deleteWord(String word) {
     setState(() {
@@ -82,6 +98,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return [_words.join(' '), _text].join(" ");
   }
 
+  void addCategory(Category c) {
+    _categories.add(c);
+  }
+
   List<Category> getCategories() {
     return _categories;
   }
@@ -95,8 +115,9 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void save(){
     setState(() {
-      _phrases.add(getTextPhrase());
-      print("SAVE: ${getTextPhrase()}");
+      Category c = new Category("TEST");
+      c.addPhrase(getTextPhrase());
+      _categories.add(c);
     });
   }
 
@@ -144,26 +165,6 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   @override
   Widget build(BuildContext context){
-
-    Category tmpCat1 = new Category('😍 Saludos');
-    tmpCat1.addPhrase('Hola');
-    tmpCat1.addPhrase('¿Qué pasa?');
-
-    Category tmpCat2 = new Category('🌎 En casa');
-    tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
-    tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
-    tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
-
-    Category tmpCat3 = new Category('😙 Cosas que me gustan');
-
-    Category tmpCat4 = new Category('🌐 Preguntas');
-    _categories = [
-      tmpCat1,
-      tmpCat2,
-      tmpCat3,
-      tmpCat4
-    ];
-
     return new _TextContext(
       data: this,
       child: widget.child,
