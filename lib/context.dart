@@ -115,7 +115,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
     }
 
   }
-
+  
   List<String> _tokenizer(String text) {
     return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
   }
@@ -159,6 +159,13 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   List<Category> getCategories() {
     return _categories.values.toList();
+  }
+
+  void editCategory(String oldCat, String newCat) {
+    setState(() {
+      _categories.remove(oldCat);
+      addCategory(newCat);
+    });
   }
 
   void removeCategory(String c) {
