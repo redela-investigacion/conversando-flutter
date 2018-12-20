@@ -7,33 +7,15 @@ class PhraseSelectorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
     return ExpansionTile(
-      //key: PageStorageKey<Entry>(root),
       title: Text('Categorías de frases'),
-      children: [
-        ExpansionTile(
-          title: Text('😍 Saludos'),
-          children: [
-            new PhraseWidget('Hola'),
-            new PhraseWidget('¿Qué pasa?'),
-          ],
-        ),
-        ExpansionTile(
-          title: Text('🌎 En casa'),
-          children: [
-            new PhraseWidget('¿Puedes subir el volumen de la televisión?'),
-            new PhraseWidget('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?'),
-            new PhraseWidget('Por favor, traeme un vaso de agua')
-          ],
-        ),
-        ExpansionTile(
-          title: Text('😙 Cosas que me gustan'),
-          children: [],
-        ),
-        ExpansionTile(
-          title: Text('🌐 Preguntas'),
-          children: [],
-        ),
-      ],
+      children: tc.getCategories().map((Category category) {
+        return new ExpansionTile(
+          title: Text(category.text),
+          children: category.getPhrases().map((Phrase phrase){
+            return new PhraseWidget(phrase.getText());
+          }).toList()
+        );
+      }).toList()
     );
   }
 }

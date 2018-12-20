@@ -32,12 +32,37 @@ class TextContextWidget extends StatefulWidget {
   }
 }
 
+class Phrase {
+  String _text;
+  Phrase(this._text);
+
+  String getText() {
+    return _text;
+  }
+}
+
+class Category {
+  String text;
+  List<Phrase> _phrases = [];
+  Category(this.text);
+
+  void addPhrase(String text) {
+    _phrases.add(new Phrase(text));
+  }
+
+  List<Phrase> getPhrases() {
+    return _phrases;
+  }
+}
+
 class TextContextWidgetState extends State<TextContextWidget>{
   final _tts = new FlutterTts();
 
   String _text = "";
   List<String> _words = [];
   List<String> _phrases = [];
+
+  List<Category> _categories = [];
 
   void deleteWord(String word) {
     setState(() {
@@ -55,6 +80,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   String getTextPhrase() {
     return [_words.join(' '), _text].join(" ");
+  }
+
+  List<Category> getCategories() {
+    return _categories;
   }
 
   void clearText(){
@@ -115,6 +144,26 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   @override
   Widget build(BuildContext context){
+
+    Category tmpCat1 = new Category('😍 Saludos');
+    tmpCat1.addPhrase('Hola');
+    tmpCat1.addPhrase('¿Qué pasa?');
+
+    Category tmpCat2 = new Category('🌎 En casa');
+    tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
+    tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
+    tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
+
+    Category tmpCat3 = new Category('😙 Cosas que me gustan');
+
+    Category tmpCat4 = new Category('🌐 Preguntas');
+    _categories = [
+      tmpCat1,
+      tmpCat2,
+      tmpCat3,
+      tmpCat4
+    ];
+
     return new _TextContext(
       data: this,
       child: widget.child,
