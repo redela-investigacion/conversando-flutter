@@ -1,4 +1,4 @@
-import 'package:conversando/phrases.dart';
+import 'package:conversando/selectPhrase.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 import 'package:conversando/composerField.dart';

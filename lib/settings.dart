@@ -1,4 +1,4 @@
-import 'package:conversando/phrases.dart';
+import 'package:conversando/editPhrase.dart';
 import 'package:flutter/material.dart';
 
 class SettingsWidget extends StatelessWidget {
