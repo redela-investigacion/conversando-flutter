@@ -1,10 +1,11 @@
+import 'package:conversando/context.dart';
 import 'package:conversando/editPhrase.dart';
 import 'package:flutter/material.dart';
 
 class SettingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return ListView(children: [
       ListTile (
         title: Text("María de Antón"),
         subtitle: Text("estoesunmail@gmail.com"),
@@ -15,6 +16,7 @@ class SettingsWidget extends StatelessWidget {
 //            Navigator.push(context, route);
         },
       ),
+      Divider(),
       ListTile (
         title: const Text("Mis frases"),
         leading: Icon(Icons.chat, color: Colors.cyan, size: 24.0),
@@ -58,7 +60,13 @@ class VoiceSettingsWidget extends StatelessWidget {
   @override
   Widget build(context) {
     return new Scaffold(
-      appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Ajustes de voz")),
+      appBar: new AppBar(
+        backgroundColor: Colors.cyan,
+        title: Text("Ajustes de voz"),
+        actions: <Widget>[
+          new SaveButtonWidget(() { Navigator.pop(context);})
+        ]
+      ),
       body: Column(children: [])
     );
   }
@@ -68,7 +76,13 @@ class FontSettingsWidget extends StatelessWidget {
   @override
   Widget build(context) {
     return new Scaffold(
-      appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Tamaño de fuente")),
+      appBar: new AppBar(
+        backgroundColor: Colors.cyan,
+        title: Text("Tamaño de fuente"),
+        actions: <Widget>[
+          new SaveButtonWidget(() { Navigator.pop(context);})
+        ]
+      ),
       body: Column(children: [])
     );
   }
@@ -78,8 +92,27 @@ class HelpWidget extends StatelessWidget {
   @override
   Widget build(context) {
     return new Scaffold(
-      appBar: new AppBar(backgroundColor: Colors.cyan, title: Text("Ayuda")),
+      appBar: new AppBar(
+        backgroundColor: Colors.cyan,
+        title: Text("Ayuda"),
+      ),
       body: Column(children: [ new Text("Ayudaaaaaarggg")])
-    );
+      );
   }
+}
+
+class SaveButtonWidget extends StatelessWidget {
+  Function _action;
+
+  SaveButtonWidget(this._action);
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: new Text('GUARDAR'),
+      textColor: Colors.white,
+      onPressed: () {
+        this._action();
+      });
+  }
+
 }

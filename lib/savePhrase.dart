@@ -1,3 +1,4 @@
+import 'package:conversando/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 
@@ -17,18 +18,12 @@ class SavePhraseState extends State<SavePhrase> {
         backgroundColor: Colors.cyan,
         title: Text('Añadir frase'),
         actions: <Widget>[
-          // action button
-          FlatButton(
-            child: new Text(
-              'GUARDAR',
-            ),
-            onPressed: () {
-              tc.save(selectedCategory, tc.getTextPhrase());
-              setState(() {
-                Navigator.pop(context);
-              });
-            },
-          ),
+        new SaveButtonWidget(() {
+          tc.save(selectedCategory, tc.getTextPhrase());
+          setState(() {
+            Navigator.pop(context);
+          });
+        }),
         ]
       ),
 
