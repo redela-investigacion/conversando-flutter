@@ -26,7 +26,10 @@ class ComposerWidget extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.close),
                 color: Colors.red,
-                onPressed: tc.clearText,
+                onPressed: tc.getWords().length == 0 ? null : () {
+                  tc.clearText();
+                  tc.clearWords();
+                }
               ),
               IconButton(
                 icon: Icon(Icons.undo),
@@ -41,12 +44,11 @@ class ComposerWidget extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.save),
-                color: Colors.black54,
-                onPressed: () {
-                  Route route = MaterialPageRoute(
-                      builder: (context) => SavePhrase());
+                color: Theme.of(context).primaryColor,
+                onPressed: tc.getTextPhrase().length == 0 ? null : () {
+                  Route route = MaterialPageRoute(builder: (context) => SavePhrase());
                   Navigator.push(context, route);
-                },
+                }
               )
             ])),
           ])
@@ -74,9 +76,9 @@ class ComposerWidget extends StatelessWidget {
               heroTag: 'speakButton',
               child: Icon(Icons.volume_up),
               backgroundColor: Colors.deepOrangeAccent,
-              onPressed: () {
+              onPressed:tc.getTextPhrase().length == 0 ? null : () {
                 tc.speak(tc.getTextPhrase(), context);
-              },
+              }
             ),
           )
         ])

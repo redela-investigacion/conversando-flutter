@@ -85,12 +85,9 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   _loadFromStorage() {
     dynamic categories = storage.getItem('categories');
-    print(categories);
 
     if (categories != null) {
       (categories as List).forEach((category) {
-        print("X");
-        print(category);
         String id = category['id'];
         _categories[id] = new Category(id);
         (category['phrases'] as List).forEach((phrase) {
@@ -151,7 +148,11 @@ class TextContextWidgetState extends State<TextContextWidget>{
   }
 
   String getTextPhrase() {
-    return [_words.join(' '), _text].join(" ");
+    String text = [_words.join(' '), _text].join(" ");
+    if (text == " ") {
+      return "";
+    }
+    return text;
   }
 
   void addCategory(String c) {
@@ -163,10 +164,15 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return _categories.values.toList();
   }
 
+  void clearWords(){
+    setState(() {
+      _words = [];
+    });
+  }
+
   void clearText(){
     setState(() {
       _words = [];
-      _text = "";
     });
   }
 
@@ -180,27 +186,32 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void onTextChange(String inputText) {
     setState(() {
-      String word = inputText.substring(0, inputText.length -1).trim();
-      String symbol = inputText.substring(inputText.length -1, inputText.length);
-
-      // White Space symbols
-      if (_whiteSpaceSymbols.contains(symbol)) {
-        _text = '';
-        if (word != '') {
-          _words.add(word);
-        }
-      }
-      // Punctuation Symbols
-      else if (_punctuationSymbols.contains(symbol)) {
-        _text = '';
-        if (word != '') {
-          _words.add(word);
-        }
-        _words.add(symbol);
-      }
-      // default
-      else {
+      if (inputText.length == 0) {
         _text = inputText;
+      }
+      else {
+        String word = inputText.substring(0, inputText.length -1).trim();
+        String symbol = inputText.substring(inputText.length -1, inputText.length);
+
+        // White Space symbols
+        if (_whiteSpaceSymbols.contains(symbol)) {
+          _text = '';
+          if (word != '') {
+            _words.add(word);
+          }
+        }
+        // Punctuation Symbols
+        else if (_punctuationSymbols.contains(symbol)) {
+          _text = '';
+          if (word != '') {
+            _words.add(word);
+          }
+          _words.add(symbol);
+        }
+        // default
+        else {
+          _text = inputText;
+        }
       }
     });
   }
