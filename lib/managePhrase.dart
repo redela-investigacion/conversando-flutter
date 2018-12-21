@@ -76,7 +76,15 @@ class RemoveCategoryWidget extends StatelessWidget {
     return IconButton(
       icon: Icon(Icons.delete),
       color: emptyCategory ? Colors.red[300] : Colors.grey,
-      onPressed: emptyCategory ? () {tc.removeCategory(this._category.text);} : null
+      onPressed: emptyCategory ? () {
+        String message = "¿Deseas eliminar la siguiente categoría?";
+        showRemoveConfirmationDialog(context, message, this._category.text).then((
+          value) { // The value passed to Navigator.pop() or null.
+          if (value == true) {
+            tc.removeCategory(this._category.text);
+          }
+        });
+      } : null
     );
   }
 }
@@ -172,7 +180,13 @@ class RemovePhraseWidget extends StatelessWidget {
       icon: Icon(Icons.delete),
       color: Colors.red[300],
       onPressed: () {
-        tc.removePhrase(this._category.text, this._phrase.getText());
+        String message = "¿Deseas eliminar la siguiente frase?";
+        showRemoveConfirmationDialog(context, message, this._phrase.getText()).then((
+          value) { // The value passed to Navigator.pop() or null.
+          if (value == true) {
+            tc.removePhrase(this._category.text, this._phrase.getText());
+          }
+        });
       }
     );
   }
@@ -192,8 +206,7 @@ class EditPhraseWidget extends StatelessWidget {
       icon: Icon(Icons.edit),
       color: Colors.black54,
       onPressed: () {
-        showEditPhraseDialog(context, this._phrase.getText()).then((
-          value) { // The value passed to Navigator.pop() or null.
+        showEditPhraseDialog(context, this._phrase.getText()).then((value) { // The value passed to Navigator.pop() or null.
           if (value != null) {
             tc.editPhrase(this._category.text, this._phrase.getText(), value);
           }
