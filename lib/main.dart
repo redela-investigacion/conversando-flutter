@@ -14,9 +14,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextContextWidget(
       child: new MaterialApp(
-        theme: ThemeData(fontFamily: "Roboto").copyWith(
+        theme: ThemeData(
+          fontFamily: "Roboto",
+          buttonTheme: ButtonThemeData(
+            buttonColor: Color(0xFFF4F4F4),
+            disabledColor: Color(0xFFD2D2D2),
+          )
+        ).copyWith(
           primaryColor: Colors.cyan,
           backgroundColor: Color(0xFFFDA05D)
+
         ),
         routes: <String, WidgetBuilder>{
           // Set routes for using the Navigator.

@@ -61,7 +61,7 @@ class ComposerWidget extends StatelessWidget {
             child: FloatingActionButton(
               heroTag: 'listPhrasesButton',
               child: Icon(Icons.apps),
-              backgroundColor: Colors.cyan,
+              backgroundColor: Theme.of(context).primaryColor,
               onPressed: () {
                 Route route = MaterialPageRoute(
                     builder: (context) => FullPagePhraseSelector());
@@ -75,7 +75,9 @@ class ComposerWidget extends StatelessWidget {
             child: FloatingActionButton(
               heroTag: 'speakButton',
               child: Icon(Icons.volume_up),
-              backgroundColor: Colors.deepOrangeAccent,
+              backgroundColor:tc.getTextPhrase().length != 0
+                  ? Theme.of(context).backgroundColor
+                  : Color(0xFFD2D2D2),
               onPressed:tc.getTextPhrase().length == 0 ? null : () {
                 tc.speak(tc.getTextPhrase(), context);
               }

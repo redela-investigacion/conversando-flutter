@@ -9,16 +9,16 @@ class SpeakerWidget extends StatelessWidget {
     return Column(children: [
       Expanded(
           child: GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               childAspectRatio: 2.5,
               shrinkWrap: true,
               children: <Widget>[
-                new QuickSpeakWidget("Sí"),
-                new QuickSpeakWidget("No"),
-                new QuickSpeakWidget("Hola"),
-                new QuickSpeakWidget("Perdona"),
-                new QuickSpeakWidget("Bien"),
-                new QuickSpeakWidget("Gracias")
+                new QuickSpeakWidget("SÍ"),
+                new QuickSpeakWidget("NO"),
+                new QuickSpeakWidget("PERDONA"),
+                new QuickSpeakWidget("HOLA"),
+                new QuickSpeakWidget("BIEN"),
+                new QuickSpeakWidget("GRACIAS")
             // 4 Text Fields here
           ])),
       new ExpansionPhraseSelector(),
@@ -35,10 +35,11 @@ class QuickSpeakWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
-    return new RaisedButton(
-        textColor: Colors.black87,
-        color: Colors.white,
-        child: new Text(this._label),
+    return new OutlineButton(
+        child: new Text(
+          this._label,
+          style: new TextStyle(color: new Color(0xFF2A2A2A))
+        ),
         onPressed: () {
           tc.speak(this._label, context);
         });

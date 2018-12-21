@@ -67,6 +67,7 @@ class ComposerFieldState extends State<ComposerFieldWidget> {
       widgets.add(
         new InputChip(
           label: Text(word),
+          deleteIconColor: Color(0XFF767676),
           labelStyle: TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w500,
