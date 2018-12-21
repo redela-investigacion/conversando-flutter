@@ -14,11 +14,11 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 new TabBar(
-                  labelStyle: new TextStyle(fontSize: 18.0),
+                  indicatorColor: Colors.white,
                   tabs: [
-                    Tab(text: "Componer"),
-                    Tab(text: "Hablar"),
-                    Tab(text: "Ajustes"),
+                    Tab(text: "COMPONER"),
+                    Tab(text: "HABLAR"),
+                    Tab(text: "AJUSTES"),
                   ],
                 ),
               ],
