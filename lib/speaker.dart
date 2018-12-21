@@ -13,19 +13,19 @@ class SpeakerWidget extends StatelessWidget {
               childAspectRatio: 2.5,
               shrinkWrap: true,
               children: <Widget>[
-                new QuickSpeakWidget("SÍ"),
-                new QuickSpeakWidget("NO"),
-                new QuickSpeakWidget("PERDONA"),
-                new QuickSpeakWidget("HOLA"),
-                new QuickSpeakWidget("BIEN"),
-                new QuickSpeakWidget("GRACIAS")
+                new QuickSpeakWidget("Sí"),
+                new QuickSpeakWidget("No"),
+                new QuickSpeakWidget("Perdona"),
+                new QuickSpeakWidget("Hola"),
+                new QuickSpeakWidget("Bien"),
+                new QuickSpeakWidget("Gracias")
             // 4 Text Fields here
           ])),
       new ExpansionPhraseSelector(),
     ]);
   }
 }
-
+s
 class QuickSpeakWidget extends StatelessWidget {
   final String _label;
 
