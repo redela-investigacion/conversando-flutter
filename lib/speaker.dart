@@ -12,7 +12,7 @@ class SpeakerWidget extends StatelessWidget {
       Expanded(
           child: GridView.count(
               crossAxisCount: 3,
-              childAspectRatio: 2.5,
+              childAspectRatio: 2,
               shrinkWrap: true,
               children: <Widget>[
                 new QuickSpeakWidget("Sí"),
