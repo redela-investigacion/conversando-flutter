@@ -6,7 +6,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Container(
-        padding: const EdgeInsets.only(top: 40, right: 30, bottom: 30, left: 30),
+        padding: const EdgeInsets.only(top: 70, right: 30, bottom: 30, left: 30),
         color: Theme.of(context).backgroundColor,
         child: new Column(
           children: [
