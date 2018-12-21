@@ -38,6 +38,15 @@ Future showEditPhraseDialog (context, oldPhraseText){
   );
 }
 
+Future showRemoveConfirmationDialog (context, message, value){
+  return _showConfirmationDialog(
+    context: context,
+    confirmationMessage: message,
+    value: value,
+    actionLabel: "ELIMINAR",
+  );
+}
+
 Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, String actionLabel, String oldValue = ""} ){
   TextEditingController newCategoryController = new TextEditingController();
 
@@ -81,6 +90,48 @@ Future _showOneFieldDialog ({context, String dialogTitle, String fieldLabel, Str
               Navigator.pop(context, newCategoryController.text);
             },
           ),
-        ]);
-      });
+        ]
+      );
+    }
+  );
+}
+
+Future _showConfirmationDialog ({context, String confirmationMessage, String actionLabel, String value} ){
+
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            new Text(confirmationMessage),
+            Divider()
+          ]
+        ),
+        content: new ConstrainedBox(
+          constraints: new BoxConstraints.expand(height: 50.0),
+          child: new Text(value, textAlign: TextAlign.left, style: TextStyle(color: Colors.black87))
+        ),
+        actions: <Widget>[
+          // usually buttons at the bottom of the dialog
+          new FlatButton(
+            child: new Text("CANCELAR"),
+            textColor: Colors.black87,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          new FlatButton(
+            child: new Text(actionLabel),
+            textColor: Colors.red,
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+        ]
+      );
+    }
+  );
 }
