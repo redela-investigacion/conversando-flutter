@@ -36,6 +36,8 @@ class QuickSpeakWidget extends StatelessWidget {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
     return new RaisedButton(
+        textColor: Colors.black87,
+        color: Colors.white,
         child: new Text(this._label),
         onPressed: () {
           tc.speak(this._label, context);
