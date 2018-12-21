@@ -31,6 +31,9 @@ class SavePhraseState extends State<SavePhrase> {
   @override
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
+    if (tc.getCategories().length > 0){
+      selectedCategory = tc.getCategories()[0].text;
+    }
     return new Scaffold(
       appBar:
       new AppBar(

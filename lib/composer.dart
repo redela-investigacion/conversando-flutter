@@ -100,8 +100,10 @@ class ComposerWidget extends StatelessWidget {
 
     // After the Selection Screen returns a result, hide any previous snackbars
     // and show the new result!
-    Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("Guardado: $result")));
+    if (result != null) {
+      Scaffold.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text("Guardado: $result")));
+    }
   }
 }
