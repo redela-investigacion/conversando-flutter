@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = new Uuid();
 
 class _TextContext extends InheritedWidget {
   _TextContext({
@@ -34,8 +37,10 @@ class TextContextWidget extends StatefulWidget {
 }
 
 class Phrase {
+  String _id;
   String _text;
-  Phrase(this._text);
+
+  Phrase(this._id, this._text);
 
   String getText() {
     return _text;
@@ -43,21 +48,23 @@ class Phrase {
 }
 
 class Category {
+  String _id;
   String text;
   Map<String, Phrase> _phrases = new Map();
 
-  Category(this.text);
+  Category(this._id, this.text);
 
   void addPhrase(String text) {
-    _phrases[text] = new Phrase(text);
+    String phraseId = uuid.v4();
+    _phrases[phraseId] = new Phrase(phraseId, text);
   }
 
   List<Phrase> getPhrases() {
     return _phrases.values.toList();
   }
 
-  void removePhrase(String text) {
-    _phrases.remove(text);
+  void removePhrase(String phraseId) {
+    _phrases.remove(phraseId);
   }
 }
 
@@ -78,8 +85,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
     _categories.forEach((String id, Category category) {
       data.add({
         'id': id,
+        'text': category.text,
         'phrases': category.getPhrases().map((Phrase p) {
           return {
+            'id': p._id,
             'text': p._text
           };
         }).toList()
@@ -94,29 +103,33 @@ class TextContextWidgetState extends State<TextContextWidget>{
     if (categories != null) {
       (categories as List).forEach((category) {
         String id = category['id'];
-        _categories[id] = new Category(id);
+        _categories[id] = new Category(id, category['text']);
         (category['phrases'] as List).forEach((phrase) {
           _categories[id].addPhrase(phrase['text']);
         });
       });
     }
     else {
-      Category tmpCat1 = new Category('😍 Saludos');
+      String tmpCat1Id = uuid.v4();
+      Category tmpCat1 = new Category(tmpCat1Id, '😍 Saludos');
       tmpCat1.addPhrase('Hola');
       tmpCat1.addPhrase('¿Qué pasa?');
 
-      Category tmpCat2 = new Category('🌎 En casa');
+      String tmpCat2Id = uuid.v4();
+      Category tmpCat2 = new Category(tmpCat2Id, '🌎 En casa');
       tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
       tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
       tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
 
-      Category tmpCat3 = new Category('😙 Cosas que me gustan');
+      String tmpCat3Id = uuid.v4();
+      Category tmpCat3 = new Category(tmpCat3Id, '😙 Cosas que me gustan');
 
-      Category tmpCat4 = new Category('🌐 Preguntas');
-      _categories[tmpCat1.text] = tmpCat1;
-      _categories[tmpCat2.text] = tmpCat2;
-      _categories[tmpCat3.text] = tmpCat3;
-      _categories[tmpCat4.text] = tmpCat4;
+      String tmpCat4Id = uuid.v4();
+      Category tmpCat4 = new Category(tmpCat4Id, '🌐 Preguntas');
+      _categories[tmpCat1._id] = tmpCat1;
+      _categories[tmpCat2._id] = tmpCat2;
+      _categories[tmpCat3._id] = tmpCat3;
+      _categories[tmpCat4._id] = tmpCat4;
     }
 
   }
@@ -158,7 +171,8 @@ class TextContextWidgetState extends State<TextContextWidget>{
   }
 
   void addCategory(String c) {
-    _categories[c] = new Category(c);
+    String id = uuid.v4();
+    _categories[id] = new Category(id, c);
     _saveToStorage();
   }
 
@@ -166,34 +180,35 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return _categories.values.toList();
   }
 
-  void editCategory(String oldCat, String newCat) {
+  void editCategory(Category cat, String text) {
     setState(() {
-      _categories.remove(oldCat);
-      addCategory(newCat);
-    });
-  }
-
-  void removeCategory(String c) {
-    setState(() {
-      _categories.remove(c);
+      var category = _categories[cat._id];
+      category.text = text;
+//      cat.text = text;
     });
     _saveToStorage();
   }
 
-  void editPhrase(String c, String oldPhrase, String newPhrase) {
+  void removeCategory(Category cat) {
     setState(() {
-      Category category = _categories[c];
-      category.removePhrase(oldPhrase);
-      save(c, newPhrase);
+      _categories.remove(cat._id);
     });
+    _saveToStorage();
   }
 
-  void removePhrase(String c, String p) {
+  void editPhrase(Category cat, Phrase p, String text) {
     setState(() {
-      Category category = _categories[c];
-      category.removePhrase(p);
+      Category category = _categories[cat._id];
+      Phrase phrase = category._phrases[p._id];
+      phrase._text = text;
+    });
+    _saveToStorage();
+  }
 
-      _categories[c] = category;
+  void removePhrase(Category cat, Phrase p) {
+    setState(() {
+      Category category = _categories[cat._id];
+      category.removePhrase(p._id);
     });
     _saveToStorage();
   }

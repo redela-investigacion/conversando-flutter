@@ -82,7 +82,7 @@ class RemoveCategoryWidget extends StatelessWidget {
         showRemoveConfirmationDialog(context, message, this._category.text).then((
           value) { // The value passed to Navigator.pop() or null.
           if (value == true) {
-            tc.removeCategory(this._category.text);
+            tc.removeCategory(this._category);
           }
         });
       } : null
@@ -106,7 +106,7 @@ class EditCategoryWidget extends StatelessWidget {
         showEditCategoryDialog(context, this._category.text).then((
           value) { // The value passed to Navigator.pop() or null.
           if (value != null) {
-            tc.editCategory(this._category.text, value);
+            tc.editCategory(this._category, value);
           }
         });
       }
@@ -185,7 +185,7 @@ class RemovePhraseWidget extends StatelessWidget {
         showRemoveConfirmationDialog(context, message, this._phrase.getText()).then((
           value) { // The value passed to Navigator.pop() or null.
           if (value == true) {
-            tc.removePhrase(this._category.text, this._phrase.getText());
+            tc.removePhrase(this._category, this._phrase);
           }
         });
       }
@@ -209,7 +209,7 @@ class EditPhraseWidget extends StatelessWidget {
       onPressed: () {
         showEditPhraseDialog(context, this._phrase.getText()).then((value) { // The value passed to Navigator.pop() or null.
           if (value != null) {
-            tc.editPhrase(this._category.text, this._phrase.getText(), value);
+            tc.editPhrase(this._category, this._phrase, value);
           }
         });
       }
