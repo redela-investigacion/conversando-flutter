@@ -8,9 +8,9 @@ class SavePhrase extends StatefulWidget {
 }
 
 class SavePhraseWidget extends StatelessWidget {
-  String title;
-  String subtitle;
-  IconData icon;
+  final String title;
+  final String subtitle;
+  final IconData icon;
 
   SavePhraseWidget({this.title, this.subtitle, this.icon});
 
@@ -39,7 +39,7 @@ class SavePhraseState extends State<SavePhrase> {
         new ActionBarButtonWidget("GUARDAR", () {
           tc.save(selectedCategory, tc.getTextPhrase());
           setState(() {
-            Navigator.pop(context);
+            Navigator.pop(context, tc.getTextPhrase());
           });
         }),
         ]

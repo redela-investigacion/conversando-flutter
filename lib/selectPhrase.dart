@@ -55,8 +55,8 @@ class FullPagePhraseSelector extends StatelessWidget {
 
 
 class PhraseWidget extends StatelessWidget {
-  String text;
-  Function onTap;
+  final String text;
+  final Function onTap;
 
   PhraseWidget({this.text, this.onTap});
 

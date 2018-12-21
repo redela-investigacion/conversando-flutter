@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ActionBarButtonWidget extends StatelessWidget {
-  String _label;
-  Function _action;
+  final String _label;
+  final Function _action;
 
   ActionBarButtonWidget(this._label, this._action);
   @override

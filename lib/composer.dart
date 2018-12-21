@@ -46,8 +46,7 @@ class ComposerWidget extends StatelessWidget {
                 icon: Icon(Icons.save),
                 color: Theme.of(context).primaryColor,
                 onPressed: tc.getTextPhrase().length == 0 ? null : () {
-                  Route route = MaterialPageRoute(builder: (context) => SavePhrase());
-                  Navigator.push(context, route);
+                  _navigateAndDisplaySelection(context);
                 }
               )
             ])),
@@ -87,5 +86,22 @@ class ComposerWidget extends StatelessWidget {
       ]),
     ]);
 //        new PhraseSelectorWidget(this._tts),
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that will complete after we call
+    // Navigator.pop on the Selection Screen!
+    Route route = MaterialPageRoute(builder: (context) => SavePhrase());
+
+    final result = await Navigator.push(
+      context,
+      route
+    );
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result!
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text("Guardado: $result")));
   }
 }
