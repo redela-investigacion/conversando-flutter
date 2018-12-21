@@ -7,10 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class SpeakerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
     return Column(children: [
-      Expanded(
-          child: GridView.count(
+       GridView.count(
               crossAxisCount: 3,
               childAspectRatio: 2,
               shrinkWrap: true,
@@ -22,7 +20,7 @@ class SpeakerWidget extends StatelessWidget {
                 new QuickSpeakWidget("Bien"),
                 new QuickSpeakWidget("Gracias")
             // 4 Text Fields here
-          ])),
+          ]),
       new ExpansionPhraseSelector(),
     ]);
   }

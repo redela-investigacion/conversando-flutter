@@ -6,10 +6,13 @@ class ExpansionPhraseSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
-    return ExpansionTile(
-      //key: PageStorageKey<Entry>(root),
-      title: Text("Categorías de frases"),
-      children: tc.getCategories().map((Category category) {
+    return Column(mainAxisAlignment: MainAxisAlignment.end,children: [
+//      ListTile(
+//        title: Text("Mis Categorías", style: TextStyle(fontSize: 18.0),),
+//        contentPadding: EdgeInsets.all(10),
+//      ),
+//      Divider(),
+      Column(children: tc.getCategories().map((Category category) {
         return new ExpansionTile(
           title: Text(category.text),
           children: category.getPhrases().map((Phrase phrase){
@@ -21,7 +24,8 @@ class ExpansionPhraseSelector extends StatelessWidget {
             );
           }).toList()
         );
-      }).toList());
+      }).toList())
+    ]);
   }
 }
 
