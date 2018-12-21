@@ -1,6 +1,8 @@
 import 'package:conversando/selectPhrase.dart';
 import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class SpeakerWidget extends StatelessWidget {
   @override
@@ -25,7 +27,7 @@ class SpeakerWidget extends StatelessWidget {
     ]);
   }
 }
-s
+
 class QuickSpeakWidget extends StatelessWidget {
   final String _label;
 
@@ -38,7 +40,7 @@ class QuickSpeakWidget extends StatelessWidget {
     return new OutlineButton(
         child: new Text(
           this._label,
-          style: new TextStyle(color: new Color(0xFF2A2A2A))
+          style: new TextStyle(color: new Color(0xFF2A2A2A), fontFamily: 'Montserrat')
         ),
         onPressed: () {
           tc.speak(this._label, context);
