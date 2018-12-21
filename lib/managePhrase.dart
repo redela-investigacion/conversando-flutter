@@ -75,7 +75,8 @@ class RemoveCategoryWidget extends StatelessWidget {
 
     return IconButton(
       icon: Icon(Icons.delete),
-      color: emptyCategory ? Colors.red[300] : Colors.grey,
+      color: Colors.red[300],
+      disabledColor: Colors.grey,
       onPressed: emptyCategory ? () {
         String message = "¿Deseas eliminar la siguiente categoría?";
         showRemoveConfirmationDialog(context, message, this._category.text).then((
