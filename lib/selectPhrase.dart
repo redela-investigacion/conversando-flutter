@@ -63,7 +63,7 @@ class PhraseWidget extends StatelessWidget {
   @override
   Widget build(context) {
     return ListTile(
-      title: Text(text),
+      title: Text(text, style: new TextStyle(color: new Color(0xFF2A2A2A), fontFamily: 'Montserrat')),
       onTap: () => onTap(text)
     );
   }
