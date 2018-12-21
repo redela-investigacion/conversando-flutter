@@ -89,10 +89,10 @@ class FontSettingsWidget extends StatelessWidget {
 }
 
 class SettingsMenuOptionWidget extends StatelessWidget {
-  String title;
-  String subtitle;
-  IconData icon;
-  Function onTap;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Function onTap;
 
   SettingsMenuOptionWidget({this.title, this.subtitle, this.icon, this.onTap});
 
