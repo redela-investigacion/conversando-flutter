@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:conversando/context.dart';
 import 'package:conversando/composerField.dart';
 import 'package:conversando/savePhrase.dart';
+import 'package:share/share.dart';
 
 class ComposerWidget extends StatelessWidget {
   @override
@@ -25,26 +26,30 @@ class ComposerWidget extends StatelessWidget {
                 child: Row(children: [
               IconButton(
                 icon: Icon(Icons.close),
-                color: Colors.red,
+                color: Colors.red, disabledColor: Color(0xFFD2D2D2),
                 onPressed: tc.getWords().length == 0 ? null : () {
                   tc.clearText();
                   tc.clearWords();
                 }
               ),
+              /*
               IconButton(
                 icon: Icon(Icons.undo),
                 color: Colors.black54,
                 onPressed: () {},
-              ),
+              ),*/
               IconButton(
                 icon: Icon(Icons.share),
-                color: Colors.black54,
-                onPressed: () {
+                color: Colors.grey,
+                disabledColor: Color(0xFFD2D2D2),
+                onPressed: tc.getWords().length == 0 ? null : () {
+                  Share.share(tc.getTextPhrase());
                 },
               ),
               IconButton(
                 icon: Icon(Icons.save),
                 color: Theme.of(context).primaryColor,
+                disabledColor: Color(0xFFD2D2D2),
                 onPressed: tc.getTextPhrase().length == 0 ? null : () {
                   _navigateAndDisplaySelection(context);
                 }
