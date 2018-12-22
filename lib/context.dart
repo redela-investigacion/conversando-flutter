@@ -73,7 +73,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
   final List<String> _punctuationSymbols = const ['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'];
   final RegExp _tokenizerRegExp = RegExp(r"\S+|[.,;:?¿!¡'\-]", caseSensitive: false);
   final _tts = new FlutterTts();
-  final LocalStorage storage = new LocalStorage('conversando_app');
+  final LocalStorage storage = new LocalStorage('Conversando_app');
   bool initialized = false;
 
   String _text = "";

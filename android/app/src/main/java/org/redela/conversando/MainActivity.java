@@ -1,4 +1,4 @@
-package org.redela.conversando;
+package org.redela.Conversando;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

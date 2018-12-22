@@ -1,6 +1,6 @@
-import 'package:conversando/selectPhrase.dart';
+import 'package:Conversando/selectPhrase.dart';
 import 'package:flutter/material.dart';
-import 'package:conversando/context.dart';
+import 'package:Conversando/context.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 

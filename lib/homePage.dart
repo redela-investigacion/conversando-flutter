@@ -1,7 +1,7 @@
-import 'package:conversando/settings.dart';
+import 'package:Conversando/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:conversando/composer.dart';
-import 'package:conversando/speaker.dart';
+import 'package:Conversando/composer.dart';
+import 'package:Conversando/speaker.dart';
 
 class HomePage extends StatelessWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:conversando/context.dart';
-import 'package:conversando/loginPage.dart';
-import 'package:conversando/homePage.dart';
+import 'package:Conversando/context.dart';
+import 'package:Conversando/loginPage.dart';
+import 'package:Conversando/homePage.dart';
 
 
 void main() {

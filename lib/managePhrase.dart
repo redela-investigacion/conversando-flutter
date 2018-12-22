@@ -1,6 +1,6 @@
-import 'package:conversando/commons.dart';
-import 'package:conversando/context.dart';
-import 'package:conversando/showDialog.dart';
+import 'package:Conversando/commons.dart';
+import 'package:Conversando/context.dart';
+import 'package:Conversando/showDialog.dart';
 import 'package:flutter/material.dart';
 
 class CategoryManagerWidget extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:conversando/selectPhrase.dart';
+import 'package:Conversando/selectPhrase.dart';
 import 'package:flutter/material.dart';
-import 'package:conversando/context.dart';
-import 'package:conversando/composerField.dart';
-import 'package:conversando/savePhrase.dart';
+import 'package:Conversando/context.dart';
+import 'package:Conversando/composerField.dart';
+import 'package:Conversando/savePhrase.dart';
 import 'package:share/share.dart';
 
 class ComposerWidget extends StatelessWidget {
