@@ -5,74 +5,76 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Container(
-        padding: const EdgeInsets.only(top: 70, right: 30, bottom: 30, left: 30),
-        color: Theme.of(context).backgroundColor,
-        child: new Column(
-          children: [
-            new Column(
-              children: [
-                Image.asset(
-                  'assets/icons/logo.png',
-                  height: 120.0,
-                  fit: BoxFit.cover,
-                ),
-                new SizedBox(height: 20.0),
-                new Text(
-                  'Conversando',
-                  style: new TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Colors.white,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold
-                  )
-                ),
-                new Text(
-                  'Tu ayuda para volver a hablar',
-                  style: new TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Colors.white,
-                    fontSize: 15.0
-                  )
-                )
-              ]
-            ),
-            new Expanded(
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
+      body: new SingleChildScrollView(
+        child: new Container(
+          padding: const EdgeInsets.only(top: 70, right: 30, bottom: 30, left: 30),
+          color: Theme.of(context).backgroundColor,
+          child: new Column(
+            children: [
+              new Column(
                 children: [
-                  new OutlineLoginButton(
-                    text: 'ÚNETE CON TU EMAIL',
-                    icon: null,
-                    onPressed: () {print ('#TODO Registro con email');}
+                  Image.asset(
+                    'assets/icons/logo.png',
+                    height: 120.0,
+                    fit: BoxFit.cover,
                   ),
-                  new OutlineLoginButton(
-                    text: 'CONTINUA CON FACEBOOK',
-                    icon: FontAwesomeIcons.facebook,
-                    onPressed: () {print ('#TODO Registro con Facebook');}
+                  new SizedBox(height: 20.0),
+                  new Text(
+                    'Conversando',
+                    style: new TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Colors.white,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold
+                    )
                   ),
-                  new OutlineLoginButton(
-                    text: 'CONTINUA CON GOOGLE',
-                    icon: FontAwesomeIcons.google,
-                    onPressed: () {print ('#TODO Registro con Google');}
-                  ),
-                  new FlatLoginButton(
-                    text: '¿Tienes una cuenta? Log in',
-                    icon: null,
-                    onPressed: () {print ('#TODO Login');}
-                  ),
-                  new FlatLoginButton(
-                    text: 'Continuar sin identificarte',
-                    icon: null,
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/home');
-                    }
-                  ),
+                  new Text(
+                    'Tu ayuda para volver a hablar',
+                    style: new TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Colors.white,
+                      fontSize: 15.0
+                    )
+                  )
                 ]
+              ),
+              new Expanded(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    new OutlineLoginButton(
+                      text: 'ÚNETE CON TU EMAIL',
+                      icon: null,
+                      onPressed: () {print ('#TODO Registro con email');}
+                    ),
+                    new OutlineLoginButton(
+                      text: 'CONTINUA CON FACEBOOK',
+                      icon: FontAwesomeIcons.facebook,
+                      onPressed: () {print ('#TODO Registro con Facebook');}
+                    ),
+                    new OutlineLoginButton(
+                      text: 'CONTINUA CON GOOGLE',
+                      icon: FontAwesomeIcons.google,
+                      onPressed: () {print ('#TODO Registro con Google');}
+                    ),
+                    new FlatLoginButton(
+                      text: '¿Tienes una cuenta? Log in',
+                      icon: null,
+                      onPressed: () {print ('#TODO Login');}
+                    ),
+                    new FlatLoginButton(
+                      text: 'Continuar sin identificarte',
+                      icon: null,
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/home');
+                      }
+                    ),
+                  ]
+                )
               )
-            )
-          ]
+            ]
+          )
         )
       )
     );

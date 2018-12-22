@@ -6,13 +6,8 @@ class ExpansionPhraseSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
-    return Column(mainAxisAlignment: MainAxisAlignment.end,children: [
-//      ListTile(
-//        title: Text("Mis Categorías", style: TextStyle(fontSize: 18.0),),
-//        contentPadding: EdgeInsets.all(10),
-//      ),
-//      Divider(),
-      Column(children: tc.getCategories().map((Category category) {
+    return new Flexible(
+      child: ListView(children: tc.getCategories().map((Category category) {
         return new ExpansionTile(
           title: Text(category.text),
           children: category.getPhrases().map((Phrase phrase){
@@ -25,7 +20,7 @@ class ExpansionPhraseSelector extends StatelessWidget {
           }).toList()
         );
       }).toList())
-    ]);
+    );
   }
 }
 
@@ -36,7 +31,7 @@ class FullPagePhraseSelector extends StatelessWidget {
 
     return new Scaffold(
       appBar: new AppBar(title: Text("Mis frases")),
-      body: Column(children: tc.getCategories().map((Category category) {
+      body: ListView(children: tc.getCategories().map((Category category) {
         return ExpansionTile(
           title: Text(category.text),
           children: category.getPhrases().map((Phrase phrase){
