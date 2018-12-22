@@ -23,14 +23,13 @@ class MyApp extends StatelessWidget {
         ).copyWith(
           primaryColor: Colors.cyan,
           backgroundColor: Color(0xFFFDA05D)
-
         ),
         routes: <String, WidgetBuilder>{
           // Set routes for using the Navigator.
           '/home': (BuildContext context) => new HomePage(),
           '/login': (BuildContext context) => new LoginPage()
         },
-        home: new LoginPage()
+        home: new HomePage()
       )
     );
   }
