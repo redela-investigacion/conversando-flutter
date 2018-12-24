@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:Conversando/commons.dart';
 import 'package:Conversando/managePhrase.dart';
 import 'package:Conversando/help.dart';
-import 'package:flutter/material.dart';
 
 class SettingsWidget extends StatelessWidget {
   @override
@@ -105,6 +105,4 @@ class SettingsMenuOptionWidget extends StatelessWidget {
       onTap: this.onTap,
     );
   }
-
 }
-

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -50,12 +49,12 @@ class LoginPage extends StatelessWidget {
                     ),
                     new OutlineLoginButton(
                       text: 'CONTINUA CON FACEBOOK',
-                      icon: FontAwesomeIcons.facebook,
+                      icon: null,
                       onPressed: () {print ('#TODO Registro con Facebook');}
                     ),
                     new OutlineLoginButton(
                       text: 'CONTINUA CON GOOGLE',
-                      icon: FontAwesomeIcons.google,
+                      icon: null,
                       onPressed: () {print ('#TODO Registro con Google');}
                     ),
                     new FlatLoginButton(
