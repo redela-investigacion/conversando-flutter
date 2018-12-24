@@ -228,7 +228,6 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void save(String category, String phrase){
     setState(() {
-      print(_categories);
       Category cat = _categories[category];
       cat.addPhrase(phrase);
     });

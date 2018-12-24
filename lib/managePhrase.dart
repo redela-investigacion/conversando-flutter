@@ -130,7 +130,7 @@ class PhraseManagerWidget extends StatelessWidget {
           new ActionBarButtonWidget("AÑADIR", () {
             showCreatePhraseDialog(context).then((value) { // The value passed to Navigator.pop() or null.
               if (value != null) {
-                tc.save(this._category.text, value);
+                tc.save(this._category.id, value);
               }
             });
           })
