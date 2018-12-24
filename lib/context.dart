@@ -48,11 +48,11 @@ class Phrase {
 }
 
 class Category {
-  String _id;
+  String id;
   String text;
   Map<String, Phrase> _phrases = new Map();
 
-  Category(this._id, this.text);
+  Category(this.id, this.text);
 
   void addPhrase(String text) {
     String phraseId = uuid.v4();
@@ -66,6 +66,7 @@ class Category {
   void removePhrase(String phraseId) {
     _phrases.remove(phraseId);
   }
+
 }
 
 class TextContextWidgetState extends State<TextContextWidget>{
@@ -126,10 +127,10 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
       String tmpCat4Id = uuid.v4();
       Category tmpCat4 = new Category(tmpCat4Id, '🌐 Preguntas');
-      _categories[tmpCat1._id] = tmpCat1;
-      _categories[tmpCat2._id] = tmpCat2;
-      _categories[tmpCat3._id] = tmpCat3;
-      _categories[tmpCat4._id] = tmpCat4;
+      _categories[tmpCat1.id] = tmpCat1;
+      _categories[tmpCat2.id] = tmpCat2;
+      _categories[tmpCat3.id] = tmpCat3;
+      _categories[tmpCat4.id] = tmpCat4;
     }
 
   }
@@ -182,7 +183,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void editCategory(Category cat, String text) {
     setState(() {
-      var category = _categories[cat._id];
+      var category = _categories[cat.id];
       category.text = text;
 //      cat.text = text;
     });
@@ -191,14 +192,14 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void removeCategory(Category cat) {
     setState(() {
-      _categories.remove(cat._id);
+      _categories.remove(cat.id);
     });
     _saveToStorage();
   }
 
   void editPhrase(Category cat, Phrase p, String text) {
     setState(() {
-      Category category = _categories[cat._id];
+      Category category = _categories[cat.id];
       Phrase phrase = category._phrases[p._id];
       phrase._text = text;
     });
@@ -207,7 +208,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void removePhrase(Category cat, Phrase p) {
     setState(() {
-      Category category = _categories[cat._id];
+      Category category = _categories[cat.id];
       category.removePhrase(p._id);
     });
     _saveToStorage();
@@ -227,6 +228,7 @@ class TextContextWidgetState extends State<TextContextWidget>{
 
   void save(String category, String phrase){
     setState(() {
+      print(_categories);
       Category cat = _categories[category];
       cat.addPhrase(phrase);
     });

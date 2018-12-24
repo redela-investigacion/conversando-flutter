@@ -31,7 +31,7 @@ class SavePhraseState extends State<SavePhrase> {
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
     if (tc.getCategories().length > 0){
-      selectedCategory = tc.getCategories()[0].text;
+      selectedCategory = tc.getCategories()[0].id;
     }
     return new Scaffold(
       appBar:
@@ -87,7 +87,7 @@ class SavePhraseState extends State<SavePhrase> {
                     },
                     items: tc.getCategories().map((Category cat){
                       return new DropdownMenuItem<String>(
-                        value: cat.text,
+                        value: cat.id,
                         child: new Text(cat.text),
                       );
                     }).toList()
