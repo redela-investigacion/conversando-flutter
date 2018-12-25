@@ -171,10 +171,11 @@ class TextContextWidgetState extends State<TextContextWidget>{
     return text;
   }
 
-  void addCategory(String c) {
+  Category addCategory(String c) {
     String id = uuid.v4();
     _categories[id] = new Category(id, c);
     _saveToStorage();
+    return _categories[id];
   }
 
   List<Category> getCategories() {

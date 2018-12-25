@@ -26,11 +26,10 @@ class SavePhraseWidget extends StatelessWidget {
 
 class SavePhraseState extends State<SavePhrase> {
   String selectedCategory;
-
   @override
   Widget build(BuildContext context) {
     final TextContextWidgetState tc = TextContextWidget.of(context);
-    if (tc.getCategories().length > 0){
+    if (tc.getCategories().length > 0 && selectedCategory == null){
       selectedCategory = tc.getCategories()[0].id;
     }
     return new Scaffold(
@@ -101,9 +100,9 @@ class SavePhraseState extends State<SavePhrase> {
                     showCreateCategoryDialog(context).then((
                         value) { // The value passed to Navigator.pop() or null.
                       if (value != null) {
-                        tc.addCategory(value);
+                        Category cat = tc.addCategory(value);
                         setState(() {
-                          selectedCategory = value;
+                          selectedCategory = cat.id;
                         });
                       }
                     });
