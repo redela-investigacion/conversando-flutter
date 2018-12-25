@@ -7,19 +7,22 @@ class ExpansionPhraseSelector extends StatelessWidget {
     final TextContextWidgetState tc = TextContextWidget.of(context);
 
     return new Flexible(
-      child: ListView(children: tc.getCategories().map((Category category) {
-        return new ExpansionTile(
-          title: Text(category.text),
-          children: category.getPhrases().map((Phrase phrase){
-            return new PhraseWidget(
-              text: phrase.getText(),
-              onTap: (text) {
-                tc.speak(text, context);
-              }
+      child:
+        new Scrollbar(child:
+          ListView(children: tc.getCategories().map((Category category) {
+            return new ExpansionTile(
+              title: Text(category.text),
+              children: category.getPhrases().map((Phrase phrase){
+                return new PhraseWidget(
+                  text: phrase.getText(),
+                  onTap: (text) {
+                    tc.speak(text, context);
+                  }
+                );
+              }).toList()
             );
-          }).toList()
-        );
-      }).toList())
+          }).toList())
+        )
     );
   }
 }
@@ -31,20 +34,24 @@ class FullPagePhraseSelector extends StatelessWidget {
 
     return new Scaffold(
       appBar: new AppBar(title: Text("Mis frases")),
-      body: ListView(children: tc.getCategories().map((Category category) {
-        return ExpansionTile(
-          title: Text(category.text),
-          children: category.getPhrases().map((Phrase phrase){
-            return new PhraseWidget(
-              text: phrase.getText(),
-              onTap: (text) {
-                tc.appendText(text);
-                Navigator.pop(context);
-              }
+      body:
+        new Scrollbar(child:
+          ListView(children: tc.getCategories().map((Category category) {
+            return ExpansionTile(
+              title: Text(category.text),
+              children: category.getPhrases().map((Phrase phrase){
+                return new PhraseWidget(
+                  text: phrase.getText(),
+                  onTap: (text) {
+                    tc.appendText(text);
+                    Navigator.pop(context);
+                  }
+                );
+              }).toList()
             );
-          }).toList()
-        );
-      }).toList()));
+          }).toList())
+        )
+      );
   }
 }
 
