@@ -6,20 +6,20 @@ class SpeakerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-       GridView.count(
-              crossAxisCount: 3,
-              childAspectRatio: 2,
-              shrinkWrap: true,
-              children: <Widget>[
-                new QuickSpeakWidget("Sí"),
-                new QuickSpeakWidget("No"),
-                new QuickSpeakWidget("Perdona"),
-                new QuickSpeakWidget("Hola"),
-                new QuickSpeakWidget("Bien"),
-                new QuickSpeakWidget("Gracias")
-            // 4 Text Fields here
-          ]),
-      new ExpansionPhraseSelector(),
+      GridView.count(
+        crossAxisCount: 3,
+        childAspectRatio: 2,
+        shrinkWrap: true,
+        children: <Widget>[
+          new QuickSpeakWidget("Sí"),
+          new QuickSpeakWidget("No"),
+          new QuickSpeakWidget("Perdona"),
+          new QuickSpeakWidget("Hola"),
+          new QuickSpeakWidget("Bien"),
+          new QuickSpeakWidget("Gracias")
+        ]
+      ),
+      new Expanded(child: new PhraseSelector()),
     ]);
   }
 }
