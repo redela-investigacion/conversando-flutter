@@ -1,5 +1,6 @@
 import 'package:Conversando/commons.dart';
 import 'package:Conversando/context.dart';
+import 'package:Conversando/scroll.dart';
 import 'package:Conversando/showDialog.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class CategoryManagerWidget extends StatelessWidget {
           ListTile(title: Text("Mis categorías", style: TextStyle(fontSize: 18.0),)),
           Divider(),
           Expanded(
-            child: ListView(
+            child: new ListViewWithScroll(
               children: tc.getCategories().map((Category category) {
                 return new CategoryEditorWidget(category);
               }).toList()
