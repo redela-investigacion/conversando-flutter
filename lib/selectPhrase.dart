@@ -1,52 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:Conversando/context.dart';
-import 'package:Conversando/scroll.dart';
+import 'package:conversando/context.dart';
+import 'package:conversando/scroll.dart';
 
 class PhraseWidget extends StatelessWidget {
   final String text;
-  final Function onTap;
+  final void Function(String) onTap;
 
-  PhraseWidget({this.text, this.onTap});
+  const PhraseWidget({super.key, required this.text, required this.onTap});
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return ListTile(
-        title: Text(text, style: new TextStyle(color: new Color(0xFF2A2A2A), fontFamily: 'Montserrat')),
-        onTap: () => onTap(text)
+      minVerticalPadding: 16,
+      title: Text(
+        text,
+        style: const TextStyle(
+            color: Color(0xFF2A2A2A),
+            fontFamily: 'Montserrat',
+            fontSize: 16),
+      ),
+      onTap: () => onTap(text),
     );
   }
 }
 
 class PhraseSelector extends StatelessWidget {
+  const PhraseSelector({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-
-    return  new ListViewWithScroll(
-      children: tc.getCategories().map((Category category) {
+    final tc = TextContextWidget.of(context);
+    return ListViewWithScroll(
+      children: tc.getCategories().map((category) {
         return ExpansionTile(
-          title: Text(category.text),
-          children: category.getPhrases().map((Phrase phrase){
-            return new PhraseWidget(
-                text: phrase.getText(),
-                onTap: (text) {
-                  tc.appendText(text);
-                  Navigator.pop(context);
-                }
+          title: Text(category.text,
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500)),
+          children: category.getPhrases().map((phrase) {
+            return PhraseWidget(
+              text: phrase.text,
+              onTap: (text) {
+                tc.appendText(text);
+                Navigator.pop(context);
+              },
             );
-          }).toList()
+          }).toList(),
         );
-      }).toList()
+      }).toList(),
     );
   }
 }
 
 class FullPagePhraseSelector extends StatelessWidget {
+  const FullPagePhraseSelector({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: Text("Mis frases")),
-      body: new PhraseSelector()
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mis frases')),
+      body: const PhraseSelector(),
     );
   }
 }

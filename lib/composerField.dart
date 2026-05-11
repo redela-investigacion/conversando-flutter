@@ -1,119 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:Conversando/context.dart';
+import 'package:conversando/context.dart';
 
 class ComposerFieldWidget extends StatefulWidget {
-  ComposerFieldWidget();
+  const ComposerFieldWidget({super.key});
 
   @override
-  ComposerFieldState createState() => new ComposerFieldState();
+  ComposerFieldState createState() => ComposerFieldState();
 }
 
 class ComposerFieldState extends State<ComposerFieldWidget> {
-  TextEditingController _textInputController = new TextEditingController();
+  final TextEditingController _textInputController = TextEditingController();
 
-  ComposerFieldState();
-
-  _showDialog(String word, int index, TextContextWidgetState tc) async {
-    TextEditingController editorTextInputController = new TextEditingController();
-    editorTextInputController.text = word;
-    
+  Future<void> _showEditDialog(
+      String word, int index, TextContextWidgetState tc) async {
+    final controller = TextEditingController(text: word);
     await showDialog<String>(
       context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return new AlertDialog(
-          contentPadding: const EdgeInsets.all(20.0),
-          content: new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new TextField(
-                  controller: editorTextInputController,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    hintText: 'Tu texto aquí'
-                  )
-                )
-              )
-            ]
-          ),
-          actions: <Widget>[
-            new FlatButton(
-              child: const Text('CANCELAR'),
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
-              }
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        contentPadding: const EdgeInsets.all(20.0),
+        content: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller,
+                autofocus: true,
+                decoration:
+                    const InputDecoration(hintText: 'Tu texto aquí'),
+              ),
             ),
-            new FlatButton(
-              child: const Text('GUARDAR'),
-              onPressed: () {
-                setState(() {
-                  tc.replaceWord(index, editorTextInputController.text);
-                  Navigator.pop(context);
-                });
-              }
-            )
           ],
-        );
-      }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('CANCELAR'),
+          ),
+          TextButton(
+            onPressed: () {
+              tc.replaceWord(index, controller.text);
+              Navigator.pop(ctx);
+            },
+            child: const Text('GUARDAR'),
+          ),
+        ],
+      ),
     );
   }
 
-  List<Widget> _getTextWidgets (TextContextWidgetState tc) {
-    List<Widget> widgets = [];
-
-    tc.getWords().asMap().forEach((index, word) {
-      widgets.add(
-        new InputChip(
+  List<Widget> _buildChips(TextContextWidgetState tc) {
+    final chips = <Widget>[];
+    final words = tc.getWords();
+    for (var i = 0; i < words.length; i++) {
+      final word = words[i];
+      chips.add(
+        InputChip(
           label: Text(word),
-          deleteIconColor: Color(0XFF767676),
-          labelStyle: TextStyle(
+          deleteIconColor: const Color(0xFF767676),
+          labelStyle: const TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w500,
-            color: Colors.black
           ),
-          onPressed: () {
-            _showDialog(word, index, tc);
-          },
-          onDeleted: () {
-            tc.deleteWord(word);
-          }
-        )
+          onPressed: () => _showEditDialog(word, i, tc),
+          onDeleted: () => tc.deleteWord(word),
+        ),
       );
-    });
-
-    widgets.add(
-      new TextField(
+    }
+    chips.add(
+      TextField(
         maxLines: null,
         controller: _textInputController,
-        decoration: InputDecoration(
-          hintText: 'Tu texto aquí'
-        ),
-        onChanged: (String value) {
+        decoration: const InputDecoration(hintText: 'Tu texto aquí'),
+        onChanged: (value) {
           tc.onTextChange(value);
-          if (tc.getText() == '') {
+          if (tc.getText().isEmpty) {
             _textInputController.clear();
           }
-        }
-      )
+        },
+      ),
     );
-
-    return widgets;
+    return chips;
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
+    final tc = TextContextWidget.of(context);
     return SingleChildScrollView(
       child: ConstrainedBox(
-        constraints: BoxConstraints(),
-        child: new Wrap(
-          spacing: 8.0, // gap between adjacent chips
-          runSpacing: 1.0, // gap between lines
-          children: _getTextWidgets(tc),
-        )
-      )
+        constraints: const BoxConstraints(),
+        child: Wrap(
+          spacing: 8.0,
+          runSpacing: 1.0,
+          children: _buildChips(tc),
+        ),
+      ),
     );
   }
 }

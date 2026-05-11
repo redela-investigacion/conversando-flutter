@@ -1,221 +1,228 @@
-import 'package:Conversando/commons.dart';
-import 'package:Conversando/context.dart';
-import 'package:Conversando/scroll.dart';
-import 'package:Conversando/showDialog.dart';
+import 'package:conversando/commons.dart';
+import 'package:conversando/context.dart';
+import 'package:conversando/models.dart';
+import 'package:conversando/scroll.dart';
+import 'package:conversando/showDialog.dart';
 import 'package:flutter/material.dart';
 
 class CategoryManagerWidget extends StatelessWidget {
-  @override
-  Widget build(context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
+  const CategoryManagerWidget({super.key});
 
-    return new Scaffold(
-      appBar: new AppBar(
-        title: Text("Mis frases"),
-        actions: <Widget>[
-          new ActionBarButtonWidget("AÑADIR", () {
-            showCreateCategoryDialog(context).then((value) { // The value passed to Navigator.pop() or null.
-              if (value != null) {
+  @override
+  Widget build(BuildContext context) {
+    final tc = TextContextWidget.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mis frases'),
+        actions: [
+          ActionBarButtonWidget('AÑADIR', () {
+            showCreateCategoryDialog(context).then((value) {
+              if (value != null && value.isNotEmpty) {
                 tc.addCategory(value);
               }
             });
-          })
-        ]
+          }),
+        ],
       ),
-      body:
-      Column(
+      body: Column(
         children: [
-          ListTile(title: Text("Mis categorías", style: TextStyle(fontSize: 18.0),)),
-          Divider(),
+          const ListTile(
+              title: Text('Mis categorías',
+                  style: TextStyle(fontSize: 18.0))),
+          const Divider(),
           Expanded(
-            child: new ListViewWithScroll(
-              children: tc.getCategories().map((Category category) {
-                return new CategoryEditorWidget(category);
-              }).toList()
-            )
-          )
-        ]
-    ));
+            child: ListViewWithScroll(
+              children: tc.getCategories().map((category) {
+                return _CategoryEditorWidget(category);
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class CategoryEditorWidget extends StatelessWidget {
+class _CategoryEditorWidget extends StatelessWidget {
   final Category _category;
 
-  CategoryEditorWidget(this._category);
+  const _CategoryEditorWidget(this._category);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child:
-          ListTile(
-            title: Text(this._category.text),
-            onTap: () {
-              Route route = MaterialPageRoute(
-                builder: (context) => new PhraseManagerWidget(this._category));
-              Navigator.push(context, route);
-            },
-          )
+        Expanded(
+          child: ListTile(
+            title: Text(_category.text),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => _PhraseManagerWidget(_category)),
+            ),
+          ),
         ),
-        new RemoveCategoryWidget(this._category),
-        new EditCategoryWidget(this._category)
-    ]);
+        _RemoveCategoryButton(_category),
+        _EditCategoryButton(_category),
+      ],
+    );
   }
 }
 
-class RemoveCategoryWidget extends StatelessWidget {
+class _RemoveCategoryButton extends StatelessWidget {
   final Category _category;
 
-  RemoveCategoryWidget(this._category);
+  const _RemoveCategoryButton(this._category);
 
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-    final bool emptyCategory = this._category.getPhrases().length == 0;
-
+    final tc = TextContextWidget.of(context);
+    final canDelete = _category.getPhrases().isEmpty;
     return IconButton(
-      icon: Icon(Icons.delete),
+      icon: const Icon(Icons.delete),
       color: Colors.red[300],
       disabledColor: Colors.grey,
-      onPressed: emptyCategory ? () {
-        String message = "¿Deseas eliminar la siguiente categoría?";
-        showRemoveConfirmationDialog(context, message, this._category.text).then((
-          value) { // The value passed to Navigator.pop() or null.
-          if (value == true) {
-            tc.removeCategory(this._category);
-          }
-        });
-      } : null
+      tooltip:
+          canDelete ? 'Eliminar categoría' : 'La categoría tiene frases',
+      onPressed: canDelete
+          ? () {
+              showRemoveConfirmationDialog(
+                context,
+                '¿Deseas eliminar la siguiente categoría?',
+                _category.text,
+              ).then((confirmed) {
+                if (confirmed == true) tc.removeCategory(_category);
+              });
+            }
+          : null,
     );
   }
 }
 
-class EditCategoryWidget extends StatelessWidget {
+class _EditCategoryButton extends StatelessWidget {
   final Category _category;
 
-  EditCategoryWidget(this._category);
+  const _EditCategoryButton(this._category);
 
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-
+    final tc = TextContextWidget.of(context);
     return IconButton(
-      icon: Icon(Icons.edit),
+      icon: const Icon(Icons.edit),
       color: Colors.black54,
+      tooltip: 'Editar categoría',
       onPressed: () {
-        showEditCategoryDialog(context, this._category.text).then((
-          value) { // The value passed to Navigator.pop() or null.
-          if (value != null) {
-            tc.editCategory(this._category, value);
+        showEditCategoryDialog(context, _category.text).then((value) {
+          if (value != null && value.isNotEmpty) {
+            tc.editCategory(_category, value);
           }
         });
-      }
+      },
     );
   }
 }
 
-class PhraseManagerWidget extends StatelessWidget {
+class _PhraseManagerWidget extends StatelessWidget {
   final Category _category;
 
-  PhraseManagerWidget(this._category);
+  const _PhraseManagerWidget(this._category);
 
   @override
-  Widget build(context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-
-    return new Scaffold(
-      appBar: new AppBar(
-        title: Text(this._category.text),
-        actions: <Widget>[
-          new ActionBarButtonWidget("AÑADIR", () {
-            showCreatePhraseDialog(context).then((value) { // The value passed to Navigator.pop() or null.
-              if (value != null) {
-                tc.save(this._category.id, value);
+  Widget build(BuildContext context) {
+    final tc = TextContextWidget.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_category.text),
+        actions: [
+          ActionBarButtonWidget('AÑADIR', () {
+            showCreatePhraseDialog(context).then((value) {
+              if (value != null && value.isNotEmpty) {
+                tc.save(_category.id, value);
               }
             });
-          })
-        ]
+          }),
+        ],
       ),
       body: ListView(
-        children: this._category.getPhrases().map((Phrase phrase) {
-          return new PhraseEditorWidget(this._category, phrase);
-        }).toList()
-      )
+        children: _category.getPhrases().map((phrase) {
+          return _PhraseEditorWidget(_category, phrase);
+        }).toList(),
+      ),
     );
   }
 }
 
-class PhraseEditorWidget extends StatelessWidget {
+class _PhraseEditorWidget extends StatelessWidget {
   final Category _category;
   final Phrase _phrase;
 
-  PhraseEditorWidget(this._category, this._phrase);
+  const _PhraseEditorWidget(this._category, this._phrase);
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(children: [
-        Expanded(child: ListTile(
-            title: Text(this._phrase.getText()),
-          )
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: ListTile(title: Text(_phrase.text)),
+            ),
+            _RemovePhraseButton(_category, _phrase),
+            _EditPhraseButton(_category, _phrase),
+          ],
         ),
-        new RemovePhraseWidget(this._category, this._phrase),
-        new EditPhraseWidget(this._category, this._phrase)
-      ]),
-      Divider()
-    ]);
+        const Divider(),
+      ],
+    );
   }
 }
 
-class RemovePhraseWidget extends StatelessWidget {
+class _RemovePhraseButton extends StatelessWidget {
   final Category _category;
   final Phrase _phrase;
 
-  RemovePhraseWidget(this._category, this._phrase);
+  const _RemovePhraseButton(this._category, this._phrase);
 
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-
+    final tc = TextContextWidget.of(context);
     return IconButton(
-      icon: Icon(Icons.delete),
+      icon: const Icon(Icons.delete),
       color: Colors.red[300],
+      tooltip: 'Eliminar frase',
       onPressed: () {
-        String message = "¿Deseas eliminar la siguiente frase?";
-        showRemoveConfirmationDialog(context, message, this._phrase.getText()).then((
-          value) { // The value passed to Navigator.pop() or null.
-          if (value == true) {
-            tc.removePhrase(this._category, this._phrase);
-          }
+        showRemoveConfirmationDialog(
+          context,
+          '¿Deseas eliminar la siguiente frase?',
+          _phrase.text,
+        ).then((confirmed) {
+          if (confirmed == true) tc.removePhrase(_category, _phrase);
         });
-      }
+      },
     );
   }
 }
 
-class EditPhraseWidget extends StatelessWidget {
+class _EditPhraseButton extends StatelessWidget {
   final Category _category;
   final Phrase _phrase;
 
-  EditPhraseWidget(this._category, this._phrase);
+  const _EditPhraseButton(this._category, this._phrase);
 
   @override
   Widget build(BuildContext context) {
-    final TextContextWidgetState tc = TextContextWidget.of(context);
-
+    final tc = TextContextWidget.of(context);
     return IconButton(
-      icon: Icon(Icons.edit),
+      icon: const Icon(Icons.edit),
       color: Colors.black54,
+      tooltip: 'Editar frase',
       onPressed: () {
-        showEditPhraseDialog(context, this._phrase.getText()).then((value) { // The value passed to Navigator.pop() or null.
-          if (value != null) {
-            tc.editPhrase(this._category, this._phrase, value);
+        showEditPhraseDialog(context, _phrase.text).then((value) {
+          if (value != null && value.isNotEmpty) {
+            tc.editPhrase(_category, _phrase, value);
           }
         });
-      }
+      },
     );
   }
 }
-
-

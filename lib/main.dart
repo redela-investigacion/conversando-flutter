@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:Conversando/context.dart';
-import 'package:Conversando/loginPage.dart';
-import 'package:Conversando/homePage.dart';
+import 'package:conversando/context.dart';
+import 'package:conversando/homePage.dart';
+import 'package:conversando/storage_service.dart';
 
-
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = await StorageService.create();
+  runApp(MyApp(storage: storage));
 }
 
 class MyApp extends StatelessWidget {
+  final StorageService storage;
+
+  const MyApp({super.key, required this.storage});
+
   @override
   Widget build(BuildContext context) {
     return TextContextWidget(
-      child: new MaterialApp(
+      storage: storage,
+      child: MaterialApp(
+        title: 'Conversando',
         theme: ThemeData(
-          fontFamily: "Roboto",
-          buttonTheme: ButtonThemeData(
-            buttonColor: Color(0xFFF4F4F4),
-            disabledColor: Color(0xFFD2D2D2),
-          )
-        ).copyWith(
-          primaryColor: Colors.cyan,
-          backgroundColor: Color(0xFFFDA05D)
+          fontFamily: 'Roboto',
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.cyan,
+            secondary: const Color(0xFFFDA05D),
+          ),
+          useMaterial3: true,
         ),
-        routes: <String, WidgetBuilder>{
-          // Set routes for using the Navigator.
-          '/home': (BuildContext context) => new HomePage(),
-          '/login': (BuildContext context) => new LoginPage()
-        },
-        home: new HomePage()
-      )
+        home: const HomePage(),
+      ),
     );
   }
 }

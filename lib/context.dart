@@ -1,308 +1,198 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:conversando/models.dart';
+import 'package:conversando/storage_service.dart';
+import 'package:conversando/text_utils.dart';
 import 'package:uuid/uuid.dart';
 
-var uuid = new Uuid();
+const _uuid = Uuid();
 
 class _TextContext extends InheritedWidget {
-  _TextContext({
-    Key key,
-    @required Widget child,
-    @required this.data,
-  }) : super(key: key, child: child);
+  const _TextContext({required super.child, required this.data});
 
   final TextContextWidgetState data;
 
   @override
-  bool updateShouldNotify(_TextContext oldWidget) {
-    return true;
-  }
+  bool updateShouldNotify(_TextContext oldWidget) => true;
 }
 
 class TextContextWidget extends StatefulWidget {
-  TextContextWidget({
-    Key key,
-    this.child,
-  }): super(key: key);
+  const TextContextWidget({
+    super.key,
+    required this.child,
+    required this.storage,
+  });
 
   final Widget child;
+  final StorageService storage;
 
   @override
-  TextContextWidgetState createState() => new TextContextWidgetState();
+  TextContextWidgetState createState() => TextContextWidgetState();
 
-  static TextContextWidgetState of(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(_TextContext) as _TextContext).data;
+  static TextContextWidgetState of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_TextContext>()!.data;
   }
 }
 
-class Phrase {
-  String _id;
-  String _text;
+class TextContextWidgetState extends State<TextContextWidget> {
+  static const List<String> _whiteSpaceSymbols = [' '];
+  static const List<String> _punctuationSymbols = [
+    '.', ',', ';', ':', '?', '¿', '!', '¡', "'", '\\', '-',
+  ];
 
-  Phrase(this._id, this._text);
+  final FlutterTts _tts = FlutterTts();
 
-  String getText() {
-    return _text;
-  }
-}
-
-class Category {
-  String id;
-  String text;
-  Map<String, Phrase> _phrases = new Map();
-
-  Category(this.id, this.text);
-
-  void addPhrase(String text) {
-    String phraseId = uuid.v4();
-    _phrases[phraseId] = new Phrase(phraseId, text);
-  }
-
-  List<Phrase> getPhrases() {
-    return _phrases.values.toList();
-  }
-
-  void removePhrase(String phraseId) {
-    _phrases.remove(phraseId);
-  }
-
-}
-
-class TextContextWidgetState extends State<TextContextWidget>{
-  final List<String> _whiteSpaceSymbols = const [' ']; // TODO: [bug] this should works with [' ', '\r', '\n', '\t', '\f', '\v'] too
-  final List<String> _punctuationSymbols = const ['.', ',', ';', ':', '?', '¿', '!', '¡', '\'', '\\', '-'];
-  final RegExp _tokenizerRegExp = RegExp(r"\S+|[.,;:?¿!¡'\-]", caseSensitive: false);
-  final _tts = new FlutterTts();
-  final LocalStorage storage = new LocalStorage('Conversando_app');
-  bool initialized = false;
-
-  String _text = "";
+  String _text = '';
   List<String> _words = [];
-  Map<String, Category> _categories = Map();
+  final Map<String, Category> _categories = {};
+  AppSettings _appSettings = const AppSettings();
 
-  _saveToStorage() {
-    List<dynamic> data = new List();
-    _categories.forEach((String id, Category category) {
-      data.add({
-        'id': id,
-        'text': category.text,
-        'phrases': category.getPhrases().map((Phrase p) {
-          return {
-            'id': p._id,
-            'text': p._text
-          };
-        }).toList()
-      });
-    });
-    storage.setItem('categories', data);
+  @override
+  void initState() {
+    super.initState();
+    _loadFromStorage();
+    _applyTtsSettings();
   }
 
-  _loadFromStorage() {
-    dynamic categories = storage.getItem('categories');
+  Future<void> _applyTtsSettings() async {
+    await _tts.setLanguage(_appSettings.speechLanguage);
+    await _tts.setSpeechRate(_appSettings.speechRate);
+    await _tts.setPitch(_appSettings.speechPitch);
+  }
 
-    if (categories != null) {
-      (categories as List).forEach((category) {
-        String id = category['id'];
-        _categories[id] = new Category(id, category['text']);
-        (category['phrases'] as List).forEach((phrase) {
-          _categories[id].addPhrase(phrase['text']);
-        });
-      });
-    }
-    else {
-      String tmpCat1Id = uuid.v4();
-      Category tmpCat1 = new Category(tmpCat1Id, '😍 Saludos');
-      tmpCat1.addPhrase('Hola');
-      tmpCat1.addPhrase('¿Qué pasa?');
-
-      String tmpCat2Id = uuid.v4();
-      Category tmpCat2 = new Category(tmpCat2Id, '🌎 En casa');
-      tmpCat2.addPhrase('¿Puedes subir el volumen de la televisión?');
-      tmpCat2.addPhrase('Esta es una frase mucho más larga para que Andrés vea como queda. ¿Cómo de largas queremos las frases?');
-      tmpCat2.addPhrase('Por favor, traeme un vaso de agua');
-
-      String tmpCat3Id = uuid.v4();
-      Category tmpCat3 = new Category(tmpCat3Id, '😙 Cosas que me gustan');
-
-      String tmpCat4Id = uuid.v4();
-      Category tmpCat4 = new Category(tmpCat4Id, '🌐 Preguntas');
-      _categories[tmpCat1.id] = tmpCat1;
-      _categories[tmpCat2.id] = tmpCat2;
-      _categories[tmpCat3.id] = tmpCat3;
-      _categories[tmpCat4.id] = tmpCat4;
+  void _loadFromStorage() {
+    final settingsJson = widget.storage.getAppSettings();
+    if (settingsJson != null) {
+      _appSettings = AppSettings.fromJson(settingsJson);
     }
 
-  }
-
-  List<String> _tokenizer(String text) {
-    return _tokenizerRegExp.allMatches(text).map((m) => m.group(0)).toList();
-  }
-
-  void deleteWord(String word) {
-    setState(() {
-      _words.remove(word);
-    });
-  }
-
-  void replaceWord(int index, String text) {
-    List<String> newWords = _tokenizer(text);
-    _words.replaceRange(index, index+1, newWords);
-  }
-
-  void appendText( String text) {
-    List<String> newWords = _tokenizer(text);
-    _words.addAll(newWords);
-  }
-
-  String getText() {
-    return _text;
-  }
-
-  List<String> getWords() {
-    return _words;
-  }
-
-  String getTextPhrase() {
-    String text = [_words.join(' '), _text].join(" ");
-    if (text == " ") {
-      return "";
+    final rawCategories = widget.storage.getCategories();
+    if (rawCategories != null) {
+      for (final json in rawCategories) {
+        final cat = Category.fromJson(json as Map<String, dynamic>);
+        _categories[cat.id] = cat;
+      }
+    } else {
+      _addDefaultCategories();
+      _persistCategories();
     }
-    return text;
   }
 
-  Category addCategory(String c) {
-    String id = uuid.v4();
-    _categories[id] = new Category(id, c);
-    _saveToStorage();
-    return _categories[id];
+  void _addDefaultCategories() {
+    final cat1 = Category(_uuid.v4(), '😍 Saludos')
+      ..addPhrase('Hola')
+      ..addPhrase('¿Qué pasa?');
+    final cat2 = Category(_uuid.v4(), '🌎 En casa')
+      ..addPhrase('¿Puedes subir el volumen de la televisión?')
+      ..addPhrase('Por favor, tráeme un vaso de agua');
+    final cat3 = Category(_uuid.v4(), '😙 Cosas que me gustan');
+    final cat4 = Category(_uuid.v4(), '🌐 Preguntas');
+    for (final cat in [cat1, cat2, cat3, cat4]) {
+      _categories[cat.id] = cat;
+    }
   }
 
-  List<Category> getCategories() {
-    return _categories.values.toList();
-  }
-
-  void editCategory(Category cat, String text) {
-    setState(() {
-      var category = _categories[cat.id];
-      category.text = text;
-//      cat.text = text;
-    });
-    _saveToStorage();
-  }
-
-  void removeCategory(Category cat) {
-    setState(() {
-      _categories.remove(cat.id);
-    });
-    _saveToStorage();
-  }
-
-  void editPhrase(Category cat, Phrase p, String text) {
-    setState(() {
-      Category category = _categories[cat.id];
-      Phrase phrase = category._phrases[p._id];
-      phrase._text = text;
-    });
-    _saveToStorage();
-  }
-
-  void removePhrase(Category cat, Phrase p) {
-    setState(() {
-      Category category = _categories[cat.id];
-      category.removePhrase(p._id);
-    });
-    _saveToStorage();
-  }
-
-  void clearWords() {
-    setState(() {
-      _words = [];
-    });
-  }
-
-  void clearText(){
-    setState(() {
-      _text = "";
-    });
-  }
-
-  void save(String category, String phrase){
-    setState(() {
-      Category cat = _categories[category];
-      cat.addPhrase(phrase);
-    });
-    _saveToStorage();
+  Future<void> _persistCategories() async {
+    await widget.storage.saveCategories(
+      _categories.values.map((c) => c.toJson()).toList(),
+    );
   }
 
   void onTextChange(String inputText) {
     setState(() {
-      if (inputText.length == 0) {
-        _text = inputText;
+      if (inputText.isEmpty) {
+        _text = '';
+        return;
       }
-      else {
-        String word = inputText.substring(0, inputText.length -1).trim();
-        String symbol = inputText.substring(inputText.length -1, inputText.length);
-
-        // White Space symbols
-        if (_whiteSpaceSymbols.contains(symbol)) {
-          _text = '';
-          if (word != '') {
-            _words.add(word);
-          }
-        }
-        // Punctuation Symbols
-        else if (_punctuationSymbols.contains(symbol)) {
-          _text = '';
-          if (word != '') {
-            _words.add(word);
-          }
-          _words.add(symbol);
-        }
-        // default
-        else {
-          _text = inputText;
-        }
+      final word = inputText.substring(0, inputText.length - 1).trim();
+      final symbol = inputText[inputText.length - 1];
+      if (_whiteSpaceSymbols.contains(symbol)) {
+        _text = '';
+        if (word.isNotEmpty) _words.add(word);
+      } else if (_punctuationSymbols.contains(symbol)) {
+        _text = '';
+        if (word.isNotEmpty) _words.add(word);
+        _words.add(symbol);
+      } else {
+        _text = inputText;
       }
     });
   }
 
-  void speak(String text, BuildContext ctx) {
-    _tts.speak(text);
+  void deleteWord(String word) => setState(() => _words.remove(word));
 
-    final snackBar = SnackBar(
-      content: Text("Diciendo: $text"),
-      action: SnackBarAction(
-        label: 'Reproducir de nuevo',
-        onPressed: () {
-          _tts.speak(text);
-        },
-      ),
-    );
-    Scaffold.of(ctx).showSnackBar(snackBar);
+  void replaceWord(int index, String text) {
+    setState(() => _words.replaceRange(index, index + 1, tokenize(text)));
+  }
+
+  void appendText(String text) =>
+      setState(() => _words.addAll(tokenize(text)));
+
+  String getText() => _text;
+  List<String> getWords() => List.unmodifiable(_words);
+
+  String getTextPhrase() {
+    final parts = [..._words, if (_text.isNotEmpty) _text];
+    return parts.join(' ');
+  }
+
+  void clearWords() => setState(() => _words = []);
+  void clearText() => setState(() => _text = '');
+
+  Category addCategory(String categoryText) {
+    final id = _uuid.v4();
+    final cat = Category(id, categoryText);
+    setState(() => _categories[id] = cat);
+    _persistCategories();
+    return cat;
+  }
+
+  List<Category> getCategories() => _categories.values.toList();
+
+  void editCategory(Category cat, String text) {
+    setState(() => _categories[cat.id]!.text = text);
+    _persistCategories();
+  }
+
+  void removeCategory(Category cat) {
+    setState(() => _categories.remove(cat.id));
+    _persistCategories();
+  }
+
+  void save(String categoryId, String phrase) {
+    setState(() => _categories[categoryId]!.addPhrase(phrase));
+    _persistCategories();
+  }
+
+  void editPhrase(Category cat, Phrase p, String text) {
+    setState(() => _categories[cat.id]!.editPhrase(p.id, text));
+    _persistCategories();
+  }
+
+  void removePhrase(Category cat, Phrase p) {
+    setState(() => _categories[cat.id]!.removePhrase(p.id));
+    _persistCategories();
+  }
+
+  AppSettings getAppSettings() => _appSettings;
+
+  Future<void> updateSettings(AppSettings settings) async {
+    setState(() => _appSettings = settings);
+    await _applyTtsSettings();
+    await widget.storage.saveAppSettings(settings.toJson());
+  }
+
+  Future<void> speak(String text) async {
+    await _tts.speak(text);
   }
 
   @override
-  Widget build(BuildContext context){
-    return FutureBuilder(
-      future: storage.ready,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.data == null) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        if (!initialized) {
-          _loadFromStorage();
-          initialized = true;
-        }
-
-        return new _TextContext(
-          data: this,
-          child: widget.child,
-        );
-      }
-    );
+  void dispose() {
+    _tts.stop();
+    super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) =>
+      _TextContext(data: this, child: widget.child);
 }
