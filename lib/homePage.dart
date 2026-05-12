@@ -12,17 +12,13 @@ class HomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: const Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TabBar(
-                indicatorColor: Colors.white,
-                tabs: [
-                  Tab(icon: Icon(Icons.edit), text: 'COMPONER'),
-                  Tab(icon: Icon(Icons.volume_up), text: 'HABLAR'),
-                  Tab(icon: Icon(Icons.settings), text: 'AJUSTES'),
-                ],
-              ),
+          toolbarHeight: 0,
+          bottom: const TabBar(
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(icon: Icon(Icons.edit), text: 'COMPONER'),
+              Tab(icon: Icon(Icons.volume_up), text: 'HABLAR'),
+              Tab(icon: Icon(Icons.settings), text: 'AJUSTES'),
             ],
           ),
         ),
