@@ -105,6 +105,8 @@ La app está diseñada para personas con movilidad reducida:
 
 ---
 
-## Licencia
+## Autoría
 
-Proyecto de la Fundación REDELA para la investigación sobre ELA.
+Proyecto de **María de Antón** para personas con ELA (Esclerosis Lateral Amiotrófica) y otras enfermedades neuromusculares que afectan al habla y la movilidad.
+
+Desarrollado en el marco de la investigación de la Fundación REDELA.
